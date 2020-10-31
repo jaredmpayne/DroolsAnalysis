@@ -1,0 +1,10 @@
+P1: initial configuration is to block all traffic coming from outside the campus network
+P2: allow access to the campus web servers
+P3: Applications which transmit sensitive information over the network in clear text, such as telnet and ftp, are prohibited and will be blocked.
+P4: Route IDS data (syslogs) to a Security Information and Event Management system (SIEM) like qRadar
+P5: All printers must be placed on the printer network this rule basically adds rules to every switch that has at least one printer attached to it
+P6: All printers must disable unnecessary services like HTTP
+P7: allow SSH access to host 2
+P8: ICMP requests should be explicitly blocked when coming from external addresses
+P9: All apple TVs should be placed on apple tv network
+P10: All traffic from h11 should be forwarded to an IDS. The following works because there's only one ids in the network
