@@ -7,7 +7,6 @@ public class Drools {
             when
                 $n: NetDevice($labels : labels contains "FIREWALL");
             then
-
                 String cfg = ConfigGenerator.fromNode(
                     $n,
                     PolicyAction.BLOCK,
@@ -23,7 +22,6 @@ public class Drools {
             when
                 $n: NetDevice($labels : labels contains "FIREWALL");
             then
-
                 String cfg = ConfigGenerator.fromNode(
                     $n,
                     PolicyAction.ALLOW,
@@ -104,7 +102,6 @@ public class Drools {
                 $n: NetDevice($labels : labels contains "FIREWALL");
                         $m: EndSystem( alias == "H2")
             then
-
                 String cfg = ConfigGenerator.fromNode(
                     $n,
                     PolicyAction.ALLOW,
@@ -119,7 +116,6 @@ public class Drools {
             when
                 $n: NetDevice($labels : labels contains "FIREWALL");
             then
-
                 String cfg = ConfigGenerator.fromNode(
                     $n,
                     PolicyAction.BLOCK,
