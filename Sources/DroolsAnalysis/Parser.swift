@@ -33,16 +33,16 @@ public class Parser {
             leftParenthesis: try self.expect(kind: .punctuator, value: "("),
             conditionalAnd: try self.parseConditionalAnd(),
             comma: self.maybe(kind: .punctuator, value: ","),
-            accumulateClauseBody: try self.parseAccumulateClauseBody(),
+            accumulateClauseBody: try self.parseAnyAccumulateClauseBody(),
             rightParenthesis: try self.expect(kind: .punctuator, value: ")")
         )
     }
 
-    internal func parseAccumulateClauseBody() throws -> AccumulateClauseBody {
-        if let accumulateFunction = self.maybe(Parser.parseAccumulateFunction) {
-            return accumulateFunction
-        }
-        return try self.parseAccumulateSteps()
+    internal func parseAnyAccumulateClauseBody() throws -> AnyAccumulateClauseBody {
+        return AnyAccumulateClauseBody(
+            accumulateClauseBody: try self.maybe(Parser.parseAccumulateFunction)
+                ?? self.parseAccumulateSteps()
+        )
     }
 
     internal func parseAccumulateFunction() throws -> AccumulateFunction {
@@ -114,7 +114,7 @@ public class Parser {
 
     internal func parseAdditiveExpression() throws -> AdditiveExpression {
         return AdditiveExpression(
-            unaryExpression: try self.parseUnaryExpression(),
+            unaryExpression: try self.parseAnyUnaryExpression(),
             additiveExpressionRHS: self.maybe(Parser.parseAdditiveExpressionRHS)
         )
     }
@@ -122,7 +122,7 @@ public class Parser {
     internal func parseAdditiveExpressionRHS() throws -> AdditiveExpressionRHS {
         return AdditiveExpressionRHS(
             operator: try self.expect(kind: .operator, values: ["+", "-", "*", "/", "%"]),
-            unaryExpression: try self.parseUnaryExpression(),
+            unaryExpression: try self.parseAnyUnaryExpression(),
             additiveExpressionRHS: self.maybe(Parser.parseAdditiveExpressionRHS)
         )
     }
@@ -138,23 +138,23 @@ public class Parser {
     internal func parseAnnotationBody() throws -> AnnotationBody {
         return AnnotationBody(
             leftParenthesis: try self.expect(kind: .punctuator, value: "("),
-            annotationInnerBody: try self.parseAnnotationInnerBody(),
+            annotationInnerBody: try self.parseAnyAnnotationInnerBody(),
             rightParenthesis: try self.expect(kind: .punctuator, value: ")")
         )
     }
 
-    internal func parseAnnotationInnerBody() throws -> AnnotationInnerBody {
-        if let annotationInnerBodyAssignments = self.maybe(Parser.parseAnnotationInnerBodyAssignments) {
-            return annotationInnerBodyAssignments
-        }
-        return try self.parseTokens()
+    internal func parseAnyAnnotationInnerBody() throws -> AnyAnnotationInnerBody {
+        return AnyAnnotationInnerBody(
+            annotationInnerBody: try self.maybe(Parser.parseAnnotationInnerBodyAssignments)
+                ?? self.parseTokens()
+        )
     }
 
     internal func parseAnnotationInnerBodyAssignment() throws -> AnnotationInnerBodyAssignment {
         return AnnotationInnerBodyAssignment(
             identifier: try self.parseIdentifier(),
             assignment: try self.expect(kind: .operator, value: "="),
-            value: try self.parseValue()
+            value: try self.parseAnyValue()
         )
     }
 
@@ -180,13 +180,15 @@ public class Parser {
 
     internal func parseArrayCreatorRest() throws -> ArrayCreatorRest {
         return ArrayCreatorRest(
-            arrayCreatorRestBody: try self.parseArrayCreatorRestBody()
+            arrayCreatorRestBody: try self.parseAnyArrayCreatorRestBody()
         )
     }
 
-    internal func parseArrayCreatorRestBody() throws -> ArrayCreatorRestBody {
-        return try self.maybe(Parser.parseArrayCreatorRestExpressionBody)
-            ?? self.parseArrayCreatorRestInitializerBody()
+    internal func parseAnyArrayCreatorRestBody() throws -> AnyArrayCreatorRestBody {
+        return AnyArrayCreatorRestBody(
+            arrayCreatorRestBody: try self.maybe(Parser.parseArrayCreatorRestExpressionBody)
+                ?? self.parseArrayCreatorRestInitializerBody()
+        )
     }
 
     internal func parseArrayCreatorRestExpressionBody() throws -> ArrayCreatorRestExpressionBody {
@@ -214,7 +216,7 @@ public class Parser {
     internal func parseArrayVariableInitializers() throws -> ArrayVariableInitializers {
         return ArrayVariableInitializers(
             variableInitializers: try self.zeroOrMany(
-                Parser.parseVariableInitializer,
+                Parser.parseAnyVariableInitializer,
                 separator: Token(kind: .punctuator, value: ",")
             ),
             comma: self.maybe(kind: .punctuator, value: ",")
@@ -233,13 +235,15 @@ public class Parser {
     internal func parseBindingPattern() throws -> BindingPattern {
         return BindingPattern(
             bindingPatternIdentifier: self.maybe(Parser.parseBindingPatternIdentifier),
-            bindingPatternBody: try self.parseBindingPatternBody()
+            bindingPatternBody: try self.parseAnyBindingPatternBody()
         )
     }
 
-    internal func parseBindingPatternBody() throws -> BindingPatternBody {
-        return try self.maybe(Parser.parseBindingPatternMultipleSourcePattern)
-            ?? self.parseSourcePattern()
+    internal func parseAnyBindingPatternBody() throws -> AnyBindingPatternBody {
+        return AnyBindingPatternBody(
+            bindingPatternBody: try self.maybe(Parser.parseBindingPatternMultipleSourcePattern)
+                ?? self.parseSourcePattern()
+        )
     }
     
     internal func parseBindingPatternIdentifier() throws -> BindingPatternIdentifier {
@@ -372,7 +376,7 @@ public class Parser {
 
     internal func parseConditionalElement() throws -> ConditionalElement {
         return ConditionalElement(
-            conditionalElementBody: try self.parseConditionalElementBody(),
+            conditionalElementBody: try self.parseAnyConditionalElementBody(),
             semicolon: self.maybe(kind: .punctuator, value: ";")
         )
     }
@@ -388,26 +392,26 @@ public class Parser {
         )
     }
 
-    internal func parseConditionalElementBody() throws -> ConditionalElementBody {
+    internal func parseAnyConditionalElementBody() throws -> AnyConditionalElementBody {
         if let bindingPattern = self.maybe(Parser.parseBindingPattern) {
-            return bindingPattern
+            return AnyConditionalElementBody(conditionalElementBody: bindingPattern)
         }
         if let conditionalElementAccumulate = self.maybe(Parser.parseConditionalElementAccumulate) {
-            return conditionalElementAccumulate
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementAccumulate)
         }
         if let conditionalElementEval = self.maybe(Parser.parseConditionalElementEval) {
-            return conditionalElementEval
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementEval)
         }
         if let conditionalElementExists = self.maybe(Parser.parseConditionalElementExists) {
-            return conditionalElementExists
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementExists)
         }
         if let conditionalElementForall = self.maybe(Parser.parseConditionalElementForall) {
-            return conditionalElementForall
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementForall)
         }
         if let conditionalElementNot = self.maybe(Parser.parseConditionalElementNot) {
-            return conditionalElementNot
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementNot)
         }
-        return try self.parseParenthesizedConditionalOr()
+        return AnyConditionalElementBody(conditionalElementBody: try self.parseParenthesizedConditionalOr())
     }
 
     internal func parseConditionalElementEval() throws -> ConditionalElementEval {
@@ -422,13 +426,15 @@ public class Parser {
     internal func parseConditionalElementExists() throws -> ConditionalElementExists {
         return ConditionalElementExists(
             existsKeyword: try self.expect(kind: .keyword, value: "exists"),
-            conditionalElementExistsBody: try self.parseConditionalElementExistsBody()
+            conditionalElementExistsBody: try self.parseAnyConditionalElementExistsBody()
         )
     }
 
-    internal func parseConditionalElementExistsBody() throws -> ConditionalElementExistsBody {
-        return try self.maybe(Parser.parseBindingPattern)
-            ?? self.parseParenthesizedConditionalOr()
+    internal func parseAnyConditionalElementExistsBody() throws -> AnyConditionalElementExistsBody {
+        return AnyConditionalElementExistsBody(
+            conditionalElementExistsBody: try self.maybe(Parser.parseBindingPattern)
+                ?? self.parseParenthesizedConditionalOr()
+        )
     }
 
     internal func parseConditionalElementForall() throws -> ConditionalElementForall {
@@ -443,13 +449,15 @@ public class Parser {
     internal func parseConditionalElementNot() throws -> ConditionalElementNot {
         return ConditionalElementNot(
             notKeyword: try self.expect(kind: .keyword, value: "not"),
-            conditionalElementNotBody: try self.parseConditionalElementNotBody()
+            conditionalElementNotBody: try self.parseAnyConditionalElementNotBody()
         )
     }
 
-    internal func parseConditionalElementNotBody() throws -> ConditionalElementNotBody {
-        return try self.maybe(Parser.parseBindingPattern)
-            ?? self.parseParenthesizedConditionalOr()
+    internal func parseAnyConditionalElementNotBody() throws -> AnyConditionalElementNotBody {
+        return AnyConditionalElementNotBody(
+            conditionalElementNotBody: try self.maybe(Parser.parseBindingPattern)
+                ?? self.parseParenthesizedConditionalOr()
+        )
     }
 
     internal func parseConditionalExpression() throws -> ConditionalExpression {
@@ -525,50 +533,54 @@ public class Parser {
         )
     }
 
-    internal func parseCreatedName() throws -> CreatedName {
-        return try self.maybe(Parser.parsePrimitiveType)
-            ?? self.parseComplexCreatedName()
+    internal func parseAnyCreatedName() throws -> AnyCreatedName {
+        return AnyCreatedName(
+            createdName: try self.maybe(Parser.parsePrimitiveType)
+                ?? self.parseComplexCreatedName()
+        )
     }
 
     internal func parseCreator() throws -> Creator {
         return Creator(
             nonWildcardTypeArguments: self.maybe(Parser.parseNonWildcardTypeArguments),
-            createdName: try self.parseCreatedName(),
-            creatorBody: try self.parseCreatorBody()
+            createdName: try self.parseAnyCreatedName(),
+            creatorBody: try self.parseAnyCreatorBody()
         )
     }
 
-    internal func parseCreatorBody() throws -> CreatorBody {
-        return try self.maybe(Parser.parseArguments)
-            ?? self.parseArrayCreatorRest()
+    internal func parseAnyCreatorBody() throws -> AnyCreatorBody {
+        return AnyCreatorBody(
+            creatorBody: try self.maybe(Parser.parseArguments)
+                ?? self.parseArrayCreatorRest()
+        )
     }
 
-    internal func parseDefinition() throws -> Definition {
-        if let ruleAttribute = self.maybe(Parser.parseRuleAttribute) {
-            return ruleAttribute
+    internal func parseAnyDefinition() throws -> AnyDefinition {
+        if let ruleAttribute = self.maybe(Parser.parseAnyRuleAttribute) {
+            return AnyDefinition(definition: ruleAttribute.ruleAttribute)
         }
         if let importDefinition = self.maybe(Parser.parseImportDefinition) {
-            return importDefinition
+            return AnyDefinition(definition: importDefinition)
         }
         if let globalDefinition = self.maybe(Parser.parseGlobalDefinition) {
-            return globalDefinition
+            return AnyDefinition(definition: globalDefinition)
         }
         if let functionDefinition = self.maybe(Parser.parseFunctionDefinition) {
-            return functionDefinition
+            return AnyDefinition(definition: functionDefinition)
         }
         if let typeDefinition = self.maybe(Parser.parseTypeDefinition) {
-            return typeDefinition
+            return AnyDefinition(definition: typeDefinition)
         }
         if let ruleDefinition = self.maybe(Parser.parseRuleDefinition) {
-            return ruleDefinition
+            return AnyDefinition(definition: ruleDefinition)
         }
-        return try parseQueryDefinition()
+        return AnyDefinition(definition: try parseQueryDefinition())
     }
 
     internal func parseEntryPointClause() throws -> EntryPointClause {
         return EntryPointClause(
             entryPointKeyword: try self.expect(kind: .keyword, value: "entry-point"),
-            stringID: try self.parseStringID()
+            stringID: try self.parseAnyStringID()
         )
     }
 
@@ -594,7 +606,7 @@ public class Parser {
     internal func parseExplicitGenericInvocationSuperSuffix() throws -> ExplicitGenericInvocationSuperSuffix {
         return ExplicitGenericInvocationSuperSuffix(
             superKeyword: try self.expect(kind: .keyword, value: "super"),
-            superSuffix: try self.parseSuperSuffix()
+            superSuffix: try self.parseAnySuperSuffix()
         )
     }
 
@@ -615,7 +627,7 @@ public class Parser {
     internal func parseExtendsClause() throws -> ExtendsClause {
         return ExtendsClause(
             extendsKeyword: try self.expect(kind: .keyword, value: "extends"),
-            stringID: try self.parseStringID()
+            stringID: try self.parseAnyStringID()
         )
     }
 
@@ -663,7 +675,7 @@ public class Parser {
 
     internal func parseFullDefinition() throws -> FullDefinition {
         return FullDefinition(
-            definition: try self.parseDefinition(),
+            definition: try self.parseAnyDefinition(),
             semicolon: self.maybe(kind: .punctuator, value: ";")
         )
     }
@@ -671,7 +683,7 @@ public class Parser {
     internal func parseFunctionDefinition() throws -> FunctionDefinition {
         return FunctionDefinition(
             functionKeyword: try self.expect(kind: .keyword, value: "function"),
-            type: self.maybe(Parser.parseType),
+            type: self.maybe(Parser.parseAnyType),
             identifier: try self.parseIdentifier(),
             parameters: try self.parseParameters(),
             block: try self.parseBlock()
@@ -681,7 +693,7 @@ public class Parser {
     internal func parseGlobalDefinition() throws -> GlobalDefinition {
         return GlobalDefinition(
             globalKeyword: try self.expect(kind: .keyword, value: "global"),
-            type: try self.parseType(),
+            type: try self.parseAnyType(),
             identifier: try self.parseIdentifier()
         )
     }
@@ -700,10 +712,12 @@ public class Parser {
         )
     }
 
-    internal func parseIdentifierSuffix() throws -> IdentifierSuffix {
-        return try self.maybe(Parser.parseIdentifierSuffixClass)
-            ?? self.maybe(Parser.parseBracketedExpressions)
-            ?? self.parseArguments()
+    internal func parseAnyIdentifierSuffix() throws -> AnyIdentifierSuffix {
+        return AnyIdentifierSuffix(
+            identifierSuffix: try self.maybe(Parser.parseIdentifierSuffixClass)
+                ?? self.maybe(Parser.parseBracketedExpressions)
+                ?? self.parseArguments()
+        )
     }
     
     internal func parseIdentifierSuffixClass() throws -> IdentifierSuffixClass {
@@ -762,7 +776,7 @@ public class Parser {
     internal func parseInheritanceTypeArgumentSuffix() throws -> InheritanceTypeArgumentSuffix {
         return InheritanceTypeArgumentSuffix(
             extendsOrSuperKeyword: try self.expect(kind: .keyword, values: ["extends", "super"]),
-            type: try self.parseType()
+            type: try self.parseAnyType()
         )
     }
     
@@ -805,7 +819,7 @@ public class Parser {
     internal func parseInstanceOfSuffix() throws -> InstanceOfSuffix {
         return InstanceOfSuffix(
             instanceOfKeyword: try self.expect(kind: .keyword, value: "instanceof"),
-            type: try self.parseType()
+            type: try self.parseAnyType()
         )
     }
     
@@ -858,7 +872,7 @@ public class Parser {
         return NonWildcardTypeArguments(
             leftAngle: try self.expect(kind: .operator, value: "<"),
             types: try self.oneOrMany(
-                Parser.parseType,
+                Parser.parseAnyType,
                 separator: Token(kind: .punctuator, value: ",")
             ),
             rightAngle: try self.expect(kind: .operator, value: ">")
@@ -867,7 +881,7 @@ public class Parser {
 
     internal func parseOrRestriction() throws -> OrRestriction {
         return OrRestriction(
-            singleRestriction: try self.parseSingleRestriction(),
+            singleRestriction: try self.parseAnySingleRestriction(),
             orRestrictionRHS: self.maybe(Parser.parseOrRestrictionRHS)
         )
     }
@@ -875,7 +889,7 @@ public class Parser {
     internal func parseOrRestrictionRHS() throws -> OrRestrictionRHS {
         return OrRestrictionRHS(
             operator: try self.expect(kind: .operator, values: ["&&", "||"]),
-            singleRestriction: try self.parseSingleRestriction(),
+            singleRestriction: try self.parseAnySingleRestriction(),
             orRestrictionRHS: self.maybe(Parser.parseOrRestrictionRHS)
         )
     }
@@ -905,7 +919,7 @@ public class Parser {
 
     internal func parseParameter() throws -> Parameter {
         return Parameter(
-            type: try self.parseType(),
+            type: try self.parseAnyType(),
             identifier: try self.parseIdentifier(),
             bracketPairs: self.zeroOrMany(Parser.parseBracketPair)
         )
@@ -962,38 +976,38 @@ public class Parser {
         )
     }
 
-    internal func parsePrimary() throws -> Primary {
+    internal func parseAnyPrimary() throws -> AnyPrimary {
         if let parenthesizedExpression = self.maybe(Parser.parseParenthesizedExpression) {
-            return parenthesizedExpression
+            return AnyPrimary(primary: parenthesizedExpression)
         }
         if let parsePrimaryNonWildcardTypeArguments = self.maybe(Parser.parsePrimaryNonWildcardTypeArguments) {
-            return parsePrimaryNonWildcardTypeArguments
+            return AnyPrimary(primary: parsePrimaryNonWildcardTypeArguments)
         }
         if let literal = self.maybe(Parser.parseLiteral) {
-            return literal
+            return AnyPrimary(primary: literal)
         }
         if let primarySuperSuffix = self.maybe(Parser.parsePrimarySuperSuffix) {
-            return primarySuperSuffix
+            return AnyPrimary(primary: primarySuperSuffix)
         }
         if let primaryNewCreator = self.maybe(Parser.parsePrimaryNewCreator) {
-            return primaryNewCreator
+            return AnyPrimary(primary: primaryNewCreator)
         }
         if let primaryPrimitiveTypeClass = self.maybe(Parser.parsePrimaryPrimitiveTypeClass) {
-            return primaryPrimitiveTypeClass
+            return AnyPrimary(primary: primaryPrimitiveTypeClass)
         }
         if let primaryVoidClass = self.maybe(Parser.parsePrimaryVoidClass) {
-            return primaryVoidClass
+            return AnyPrimary(primary: primaryVoidClass)
         }
         if let primaryThisKeyword = self.maybe(Parser.parsePrimaryThisKeyword) {
-            return primaryThisKeyword
+            return AnyPrimary(primary: primaryThisKeyword)
         }
         if let inlineMapExpression = self.maybe(Parser.parseInlineMapExpression) {
-            return inlineMapExpression
+            return AnyPrimary(primary: inlineMapExpression)
         }
         if let inlineListExpression = self.maybe(Parser.parseInlineListExpression) {
-            return inlineListExpression
+            return AnyPrimary(primary: inlineListExpression)
         }
-        return try self.parsePrimaryIdentifier()
+        return AnyPrimary(primary: try self.parsePrimaryIdentifier())
     }
     
     internal func parsePrimaryIdentifier() throws -> PrimaryIdentifier {
@@ -1001,7 +1015,8 @@ public class Parser {
             identifiers: try self.oneOrMany(
                 Parser.parseIdentifier,
                 separator: Token(kind: .punctuator, value: ".")
-            ), identifierSuffix: self.maybe(Parser.parseIdentifierSuffix)
+            ),
+            identifierSuffix: self.maybe(Parser.parseAnyIdentifierSuffix)
         )
     }
     
@@ -1015,13 +1030,15 @@ public class Parser {
     internal func parsePrimaryNonWildcardTypeArguments() throws -> PrimaryNonWildcardTypeArguments {
         return PrimaryNonWildcardTypeArguments(
             nonWildcardTypeArguments: try self.parseNonWildcardTypeArguments(),
-            primaryNonWildcardTypeArgumentsSuffix: try self.parsePrimaryNonWildcardTypeArgumentsSuffix()
+            primaryNonWildcardTypeArgumentsSuffix: try self.parseAnyPrimaryNonWildcardTypeArgumentsSuffix()
         )
     }
     
-    internal func parsePrimaryNonWildcardTypeArgumentsSuffix() throws -> PrimaryNonWildcardTypeArgumentsSuffix {
-        return try self.maybe(Parser.parseExplicitGenericInvocationSuffix)
-            ?? self.parsePrimaryNonWildcardTypeArgumentsThisSuffix()
+    internal func parseAnyPrimaryNonWildcardTypeArgumentsSuffix() throws -> AnyPrimaryNonWildcardTypeArgumentsSuffix {
+        return AnyPrimaryNonWildcardTypeArgumentsSuffix(
+            primaryNonWildcardTypeArgumentsSuffix: try self.maybe(Parser.parseExplicitGenericInvocationSuffix)
+                ?? self.parsePrimaryNonWildcardTypeArgumentsThisSuffix()
+        )
     }
     
     internal func parsePrimaryNonWildcardTypeArgumentsThisSuffix() throws -> PrimaryNonWildcardTypeArgumentsThisSuffix {
@@ -1043,7 +1060,7 @@ public class Parser {
     internal func parsePrimarySuperSuffix() throws -> PrimarySuperSuffix {
         return PrimarySuperSuffix(
             superKeyword: try self.expect(kind: .keyword, value: "super"),
-            superSuffix: try self.parseSuperSuffix()
+            superSuffix: try self.parseAnySuperSuffix()
         )
     }
     
@@ -1082,7 +1099,7 @@ public class Parser {
     internal func parseQueryDefinition() throws -> QueryDefinition {
         return QueryDefinition(
             queryKeyword: try self.expect(kind: .keyword, value: "query"),
-            stringID: try self.parseStringID(),
+            stringID: try self.parseAnyStringID(),
             queryOptions: try self.parseQueryOptions(),
             conditionalOrs: self.zeroOrMany(Parser.parseConditionalOr),
             endKeyword: try self.expect(kind: .keyword, value: "end")
@@ -1091,14 +1108,16 @@ public class Parser {
 
     internal func parseQueryOptions() throws -> QueryOptions {
         return QueryOptions(
-            queryOptionsPrefix: try self.parseQueryOptionsPrefix(),
+            queryOptionsPrefix: try self.parseAnyQueryOptionsPrefix(),
             annotations: self.zeroOrMany(Parser.parseAnnotation)
         )
     }
 
-    internal func parseQueryOptionsPrefix() throws -> QueryOptionsPrefix {
-        return try self.maybe(Parser.parseParameters)
-            ?? self.parsePlaceholders()
+    internal func parseAnyQueryOptionsPrefix() throws -> AnyQueryOptionsPrefix {
+        return AnyQueryOptionsPrefix(
+            queryOptionsPrefix: try self.maybe(Parser.parseParameters)
+                ?? self.parsePlaceholders()
+        )
     }
 
     internal func parseRealLiteral() throws -> RealLiteral {
@@ -1114,9 +1133,11 @@ public class Parser {
         )
     }
 
-    internal func parseRelationalOperator() throws -> RelationalOperator {
-        return try self.maybe(Parser.parseRelationalOperatorToken)
-            ?? self.parseRelationalOperatorExpression()
+    internal func parseAnyRelationalOperator() throws -> AnyRelationalOperator {
+        return AnyRelationalOperator(
+            relationalOperator: try self.maybe(Parser.parseRelationalOperatorToken)
+                ?? self.parseRelationalOperatorExpression()
+        )
     }
 
     internal func parseRelationalOperatorExpression() throws -> RelationalOperatorExpression {
@@ -1133,17 +1154,21 @@ public class Parser {
         )
     }
 
-    internal func parseRHSStatement() throws -> RHSStatement {
-        return try self.maybe(Parser.parseModifyStatement)
-            ?? self.parseStatement()
+    internal func parseAnyRHSStatement() throws -> AnyRHSStatement {
+        return AnyRHSStatement(
+            rhsStatement: try self.maybe(Parser.parseModifyStatement)
+                ?? self.parseStatement()
+        )
     }
 
-    internal func parseRuleAttribute() throws -> RuleAttribute {
-        return try self.maybe(Parser.parseConditionalExpressionRuleAttribute)
-            ?? self.maybe(Parser.parseBooleanLiteralRuleAttribute)
-            ?? self.maybe(Parser.parseStringLiteralRuleAttribute)
-            ?? self.maybe(Parser.parseTimerRuleAttribute)
-            ?? self.parseCalendarsRuleAttribute()
+    internal func parseAnyRuleAttribute() throws -> AnyRuleAttribute {
+        return AnyRuleAttribute(
+            ruleAttribute: try self.maybe(Parser.parseConditionalExpressionRuleAttribute)
+                ?? self.maybe(Parser.parseBooleanLiteralRuleAttribute)
+                ?? self.maybe(Parser.parseStringLiteralRuleAttribute)
+                ?? self.maybe(Parser.parseTimerRuleAttribute)
+                ?? self.parseCalendarsRuleAttribute()
+        )
     }
 
     internal func parseRuleAttributes() throws -> RuleAttributes {
@@ -1168,7 +1193,7 @@ public class Parser {
 
     internal func parseRuleAttributesSuffixSegment() throws -> RuleAttributesSuffixSegment {
         return RuleAttributesSuffixSegment(
-            ruleAttribute: try self.parseRuleAttribute(),
+            ruleAttribute: try self.parseAnyRuleAttribute(),
             comma: self.maybe(kind: .punctuator, value: ",")
         )
     }
@@ -1176,7 +1201,7 @@ public class Parser {
     internal func parseRuleDefinition() throws -> RuleDefinition {
         return RuleDefinition(
             ruleKeyword: try self.expect(kind: .keyword, value: "rule"),
-            stringID: try self.parseStringID(),
+            stringID: try self.parseAnyStringID(),
             ruleOptions: try self.parseRuleOptions(),
             whenPart: self.maybe(Parser.parseWhenPart),
             thenPart: try self.parseThenPart()
@@ -1191,11 +1216,13 @@ public class Parser {
         )
     }
 
-    internal func parseSelector() throws -> Selector {
-        return try self.maybe(Parser.parseSuperSelector)
-            ?? self.maybe(Parser.parseNewSelector)
-            ?? self.maybe(Parser.parseIdentifierSelector)
-            ?? self.parseBracketedExpression()
+    internal func parseAnySelector() throws -> AnySelector {
+        return AnySelector(
+            selector: try self.maybe(Parser.parseSuperSelector)
+                ?? self.maybe(Parser.parseNewSelector)
+                ?? self.maybe(Parser.parseIdentifierSelector)
+                ?? self.parseBracketedExpression()
+        )
     }
 
     internal func parseShiftExpression() throws -> ShiftExpression {
@@ -1222,14 +1249,16 @@ public class Parser {
     
     internal func parseSingleRelationalRestriction() throws -> SingleRelationalRestriction {
         return SingleRelationalRestriction(
-            relationalOperator: try self.parseRelationalOperator(),
+            relationalOperator: try self.parseAnyRelationalOperator(),
             shiftExpression: try self.parseShiftExpression()
         )
     }
 
-    internal func parseSingleRestriction() throws -> SingleRestriction {
-        return try self.maybe(Parser.parseSingleRelationalRestriction)
-            ?? self.parseParenthesizedOrRestriction()
+    internal func parseAnySingleRestriction() throws -> AnySingleRestriction {
+        return AnySingleRestriction(
+            singleRestriction: try self.maybe(Parser.parseSingleRelationalRestriction)
+                ?? self.parseParenthesizedOrRestriction()
+        )
     }
 
     internal func parseSourcePattern() throws -> SourcePattern {
@@ -1243,15 +1272,17 @@ public class Parser {
     internal func parseSourcePatternFromPart() throws -> SourcePatternFromPart {
         return SourcePatternFromPart(
             fromKeyword: try self.expect(kind: .keyword, value: "from"),
-            sourcePatternFromPartSuffix: try self.parseSourcePatternFromPartSuffix()
+            sourcePatternFromPartSuffix: try self.parseAnySourcePatternFromPartSuffix()
         )
     }
 
-    internal func parseSourcePatternFromPartSuffix() throws -> SourcePatternFromPartSuffix {
-        return try self.maybe(Parser.parseConditionalOrExpression)
-            ?? self.maybe(Parser.parseCollectBindingClause)
-            ?? self.maybe(Parser.parseEntryPointClause)
-            ?? self.parseAccumulateClause()
+    internal func parseAnySourcePatternFromPartSuffix() throws -> AnySourcePatternFromPartSuffix {
+        return AnySourcePatternFromPartSuffix(
+            sourcePatternFromPartSuffix: try self.maybe(Parser.parseConditionalOrExpression)
+                ?? self.maybe(Parser.parseCollectBindingClause)
+                ?? self.maybe(Parser.parseEntryPointClause)
+                ?? self.parseAccumulateClause()
+        )
     }
     
     internal func parseStatement() throws -> Statement {
@@ -1259,9 +1290,11 @@ public class Parser {
         return Statement()
     }
 
-    internal func parseStringID() throws -> StringID {
-        return try self.maybe(Parser.parseIdentifier)
-            ?? self.parseStringLiteral()
+    internal func parseAnyStringID() throws -> AnyStringID {
+        return AnyStringID(
+            stringID: try self.maybe(Parser.parseIdentifier)
+                ?? self.parseStringLiteral()
+        )
     }
     
     internal func parseStringLiteral() throws -> StringLiteral {
@@ -1291,19 +1324,21 @@ public class Parser {
         return SuperSelector(
             period: try self.expect(kind: .punctuator, value: "."),
             superKeyword: try self.expect(kind: .keyword, value: "super"),
-            superSuffix: try self.parseSuperSuffix()
+            superSuffix: try self.parseAnySuperSuffix()
         )
     }
 
-    internal func parseSuperSuffix() throws -> SuperSuffix {
-        return try self.maybe(Parser.parseArguments)
-            ?? self.parseIdentifierSuperSuffix()
+    internal func parseAnySuperSuffix() throws -> AnySuperSuffix {
+        return AnySuperSuffix(
+            superSuffix: try self.maybe(Parser.parseArguments)
+                ?? self.parseIdentifierSuperSuffix()
+        )
     }
 
     internal func parseThenPart() throws -> ThenPart {
         return ThenPart(
             thenKeyword: try self.expect(kind: .keyword, value: "then"),
-            rhsStatements: self.zeroOrMany(Parser.parseRHSStatement),
+            rhsStatements: self.zeroOrMany(Parser.parseAnyRHSStatement),
             endKeyword: try self.expect(kind: .keyword, value: "end")
         )
     }
@@ -1322,20 +1357,24 @@ public class Parser {
         return Tokens()
     }
 
-    internal func parseType() throws -> Type {
-        return try self.maybe(Parser.parseSimpleType)
-            ?? self.parseComplexType()
+    internal func parseAnyType() throws -> AnyType {
+        return AnyType(
+            type: try self.maybe(Parser.parseSimpleType)
+                ?? self.parseComplexType()
+        )
     }
 
-    internal func parseTypeArgument() throws -> TypeArgument {
-        return try self.maybe(Parser.parseType)
-            ?? self.parseInheritanceTypeArgument()
+    internal func parseAnyTypeArgument() throws -> AnyTypeArgument {
+        return AnyTypeArgument(
+            typeArgument: try self.maybe(Parser.parseAnyType)?.type
+                ?? self.parseInheritanceTypeArgument()
+        )
     }
 
     internal func parseTypeArguments() throws -> TypeArguments {
         return TypeArguments(
             leftAngle: try self.expect(kind: .operator, value: "<"),
-            typeArguments: try self.oneOrMany(Parser.parseTypeArgument),
+            typeArguments: try self.oneOrMany(Parser.parseAnyTypeArgument),
             rightAngle: try self.expect(kind: .operator, value: ">")
         )
     }
@@ -1364,53 +1403,57 @@ public class Parser {
         )
     }
 
-    internal func parseUnaryExpression() throws -> UnaryExpression {
-        return try self.maybe(Parser.parseUnaryExpressionPlusMinus)
-            ?? self.maybe(Parser.parseUnaryExpressionIncrementDecrement)
-            ?? self.maybe(Parser.parseUnaryExpressionNegation)
-            ?? self.maybe(Parser.parseUnaryExpressionCast)
-            ?? self.parseUnaryExpressionPrimary()
+    internal func parseAnyUnaryExpression() throws -> AnyUnaryExpression {
+        return AnyUnaryExpression(
+            unaryExpression: try self.maybe(Parser.parseUnaryExpressionPlusMinus)
+                ?? self.maybe(Parser.parseUnaryExpressionIncrementDecrement)
+                ?? self.maybe(Parser.parseUnaryExpressionNegation)
+                ?? self.maybe(Parser.parseUnaryExpressionCast)
+                ?? self.parseUnaryExpressionPrimary()
+        )
     }
 
     internal func parseUnaryExpressionCast() throws -> UnaryExpressionCast {
         return UnaryExpressionCast(
             leftParenthesis: try self.expect(kind: .punctuator, value: "("),
-            unaryExpressionCastType: try self.parseUnaryExpressionCastType(),
+            unaryExpressionCastType: try self.parseAnyUnaryExpressionCastType(),
             rightParenthesis: try self.expect(kind: .punctuator, value: ")"),
-            unaryExpression: try self.parseUnaryExpression()
+            unaryExpression: try self.parseAnyUnaryExpression()
         )
     }
 
-    internal func parseUnaryExpressionCastType() throws -> UnaryExpressionCastType {
-        return try self.maybe(Parser.parsePrimitiveType)
-            ?? self.parseType()
+    internal func parseAnyUnaryExpressionCastType() throws -> AnyUnaryExpressionCastType {
+        return AnyUnaryExpressionCastType(
+            unaryExpressionCastType: try self.maybe(Parser.parsePrimitiveType)
+                ?? self.parseAnyType().type
+        )
     }
 
     internal func parseUnaryExpressionIncrementDecrement() throws -> UnaryExpressionIncrementDecrement {
         return UnaryExpressionIncrementDecrement(
             operator: try self.expect(kind: .operator, values: ["++", "--"]),
-            primary: try self.parsePrimary()
+            primary: try self.parseAnyPrimary()
         )
     }
 
     internal func parseUnaryExpressionNegation() throws -> UnaryExpressionNegation {
         return UnaryExpressionNegation(
             operator: try self.expect(kind: .operator, values: ["~", "!"]),
-            unaryExpression: try self.parseUnaryExpression()
+            unaryExpression: try self.parseAnyUnaryExpression()
         )
     }
 
     internal func parseUnaryExpressionPlusMinus() throws -> UnaryExpressionPlusMinus {
         return UnaryExpressionPlusMinus(
             operator: try self.expect(kind: .operator, values: ["+", "-"]),
-            unaryExpression: try self.parseUnaryExpression()
+            unaryExpression: try self.parseAnyUnaryExpression()
         )
     }
 
     internal func parseUnaryExpressionPrimary() throws -> UnaryExpressionPrimary {
         return UnaryExpressionPrimary(
             unaryExpressionPrimaryAssignment: self.maybe(Parser.parseUnaryExpressionPrimaryAssignment),
-            primary: try self.parsePrimary(),
+            primary: try self.parseAnyPrimary(),
             incrementOrDecrementOperator: self.maybe(kind: .operator, values: ["++", "--"])
         )
     }
@@ -1423,25 +1466,29 @@ public class Parser {
         )
     }
 
-    internal func parseValue() throws -> Value {
-        return try self.maybe(Parser.parseValueArray)
-            ?? self.parseConditionalExpression()
+    internal func parseAnyValue() throws -> AnyValue {
+        return AnyValue(
+            value: try self.maybe(Parser.parseValueArray)
+                ?? self.parseConditionalExpression()
+        )
     }
 
     internal func parseValueArray() throws -> ValueArray {
         return ValueArray(
             leftBrace: try self.expect(kind: .punctuator, value: "{"),
             values: try self.zeroOrMany(
-                Parser.parseValue,
+                Parser.parseAnyValue,
                 separator: Token(kind: .punctuator, value: ",")
             ),
             rightBrace: try self.expect(kind: .punctuator, value: "}")
         )
     }
 
-    internal func parseVariableInitializer() throws -> VariableInitializer {
-        return try self.maybe(Parser.parseArrayInitializer)
-            ?? self.parseExpression()
+    internal func parseAnyVariableInitializer() throws -> AnyVariableInitializer {
+        return AnyVariableInitializer(
+            variableInitializer: try self.maybe(Parser.parseArrayInitializer)
+                ?? self.parseExpression()
+        )
     }
 
     internal func parseWhenPart() throws -> WhenPart {

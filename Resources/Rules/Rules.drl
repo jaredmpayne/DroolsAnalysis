@@ -39,7 +39,6 @@ salience 10
         pusher.installRules(cfg);
 end
 
-
 rule "block insecure protocols"
 when
     $n: NetDevice();
@@ -58,8 +57,6 @@ then
         pusher.installRules(pol);
 end
 
-
-
 rule "snort to qradar"
 when
     $n: Node($labels: labels contains "IDS");
@@ -73,8 +70,6 @@ then
          (NetId) netlabels.get("qradar"));
     pusher.installRules(pol);
 end
-
-
 
 rule "printer network"
 when
@@ -119,7 +114,6 @@ rule "firewall-exception-ssh-to-h2"
         pusher.installRules(cfg);
 end
 
-
 rule "firewall icmp"
     when
         $n: NetDevice($labels : labels contains "FIREWALL");
@@ -134,7 +128,6 @@ rule "firewall icmp"
         pusher.installRules(cfg);
 end
 
-
 rule "apple TV network"
 when
     $p: EndSystem($labels: labels contains "APPLE TV");  // Currently no host is an apple tv, therefore no rule should be generated
@@ -148,7 +141,6 @@ then
         (NetId) netlabels.get("bonjour").plus((NetId) netlabels.get("apple tv net")));
         pusher.installRules(cfg);
 end
-
 
 rule "lab1 to snort"
 when

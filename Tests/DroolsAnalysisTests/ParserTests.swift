@@ -129,6 +129,10 @@ final class ParserTests: XCTestCase {
         let parser = Parser(tokens: [Token(kind: .operator, value: "+")])
         XCTAssertThrowsError(try parser.oneOrMany(Parser.parseIdentifier))
     }
+    
+    public func testParseRuleOne() {
+
+    }
 
     public static var allTests = [
         ("testExpectReturnsExpectedTokenIfEncountered", testExpectReturnsExpectedTokenIfEncountered),
