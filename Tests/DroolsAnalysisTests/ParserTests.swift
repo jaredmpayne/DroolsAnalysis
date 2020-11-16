@@ -131,7 +131,176 @@ final class ParserTests: XCTestCase {
     }
     
     public func testParseRuleOne() {
-
+        let expected = SyntaxTree(
+            compilationUnit: CompilationUnit(
+                packageDeclaration: nil,
+                fullDefinitions: [
+                    FullDefinition(
+                        definition: AnyDefinition(
+                            definition: RuleDefinition(
+                                ruleKeyword: Token(kind: .keyword, value: "rule"),
+                                stringID: AnyStringID(
+                                    stringID: StringLiteral(
+                                        token: Token(
+                                            kind: .stringLiteral,
+                                            value: "\"firewall\""
+                                        )
+                                    )
+                                ),
+                                ruleOptions: RuleOptions(
+                                    extendsClause: nil,
+                                    annotations: [],
+                                    ruleAttributes: RuleAttributes(
+                                        ruleAttributesPrefix: nil,
+                                        ruleAttributesSuffix: RuleAttributesSuffix(
+                                            ruleAttributesSuffixSegments: []
+                                        )
+                                    )
+                                ),
+                                whenPart: WhenPart(
+                                    whenKeyword: Token(
+                                        kind: .keyword,
+                                        value: "when"
+                                    ),
+                                    colon: nil,
+                                    conditionalOrs: [
+                                        ConditionalOr(
+                                            conditionalAnds: [
+                                                ConditionalAnd(
+                                                    conditionalElements: [
+                                                        ConditionalElement(
+                                                            conditionalElementBody: AnyConditionalElementBody(
+                                                                conditionalElementBody: BindingPattern(
+                                                                    bindingPatternIdentifier: BindingPatternIdentifier(
+                                                                        identifier: Identifier(
+                                                                            token: Token(
+                                                                                kind: .identifier,
+                                                                                value: "$n"
+                                                                            )
+                                                                        ),
+                                                                        colon: Token(
+                                                                            kind: .punctuator,
+                                                                            value: ":"
+                                                                        )
+                                                                    ),
+                                                                    bindingPatternBody: AnyBindingPatternBody(
+                                                                        bindingPatternBody: SourcePattern(
+                                                                            pattern: Pattern(
+                                                                                patternType: PatternType(
+                                                                                    identifier: Identifier(
+                                                                                        token: Token(
+                                                                                            kind: .identifier,
+                                                                                            value: "NetDevice"
+                                                                                        )
+                                                                                    )
+                                                                                ),
+                                                                                leftParenthesis: Token(
+                                                                                    kind: .punctuator,
+                                                                                    value: "("
+                                                                                ),
+                                                                                constraints: Constraints(
+                                                                                    tokens: [
+                                                                                        Token(kind: .identifier, value: "$labels"),
+                                                                                        Token(kind: .punctuator, value: ":"),
+                                                                                        Token(kind: .identifier, value: "labels"),
+                                                                                        Token(kind: .keyword, value: "contains"),
+                                                                                        Token(kind: .stringLiteral, value: "\"FIREWALL\"")
+                                                                                    ]
+                                                                                ),
+                                                                                rightParenthesis: Token(
+                                                                                    kind: .punctuator,
+                                                                                    value: ")"
+                                                                                )
+                                                                            ),
+                                                                            overClause: nil,
+                                                                            sourcePatternFromPart: nil
+                                                                        )
+                                                                    )
+                                                                )
+                                                            ),
+                                                            semicolon: Token(kind: .punctuator, value: ";")
+                                                        )
+                                                    ]
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                ),
+                                thenPart: ThenPart(
+                                    thenKeyword: Token(
+                                        kind: .keyword,
+                                        value: "then"
+                                    ),
+                                    rhsStatements: [
+                                        AnyRHSStatement(
+                                            rhsStatement: Statement(
+                                                tokens: [
+                                                    Token(kind: .identifier, value: "String"),
+                                                    Token(kind: .identifier, value: "cfg"),
+                                                    Token(kind: .operator, value: "="),
+                                                    Token(kind: .identifier, value: "ConfigGenerator"),
+                                                    Token(kind: .punctuator, value: "."),
+                                                    Token(kind: .identifier, value: "fromNode"),
+                                                    Token(kind: .punctuator, value: "("),
+                                                    Token(kind: .identifier, value: "$n"),
+                                                    Token(kind: .punctuator, value: ","),
+                                                    Token(kind: .identifier, value: "PolicyAction"),
+                                                    Token(kind: .punctuator, value: "."),
+                                                    Token(kind: .identifier, value: "BLOCK"),
+                                                    Token(kind: .punctuator, value: ","),
+                                                    Token(kind: .punctuator, value: "("),
+                                                    Token(kind: .identifier, value: "NetId"),
+                                                    Token(kind: .punctuator, value: ")"),
+                                                    Token(kind: .identifier, value: "netlabels"),
+                                                    Token(kind: .punctuator, value: "."),
+                                                    Token(kind: .identifier, value: "get"),
+                                                    Token(kind: .punctuator, value: "("),
+                                                    Token(kind: .stringLiteral, value: "\"outside\""),
+                                                    Token(kind: .punctuator, value: ")"),
+                                                    Token(kind: .punctuator, value: ","),
+                                                    Token(kind: .punctuator, value: "("),
+                                                    Token(kind: .identifier, value: "NetId"),
+                                                    Token(kind: .punctuator, value: ")"),
+                                                    Token(kind: .identifier, value: "netlabels"),
+                                                    Token(kind: .punctuator, value: "."),
+                                                    Token(kind: .identifier, value: "get"),
+                                                    Token(kind: .punctuator, value: "("),
+                                                    Token(kind: .stringLiteral, value: "\"campus network\""),
+                                                    Token(kind: .punctuator, value: ")"),
+                                                    Token(kind: .punctuator, value: ")"),
+                                                    Token(kind: .punctuator, value: ";")
+                                                ]
+                                            )
+                                        ),
+                                        AnyRHSStatement(
+                                            rhsStatement: Statement(
+                                                tokens: [
+                                                    Token(kind: .identifier, value: "pusher"),
+                                                    Token(kind: .punctuator, value: "."),
+                                                    Token(kind: .identifier, value: "installRules"),
+                                                    Token(kind: .punctuator, value: "("),
+                                                    Token(kind: .identifier, value: "cfg"),
+                                                    Token(kind: .punctuator, value: ")"),
+                                                    Token(kind: .punctuator, value: ";")
+                                                ]
+                                            )
+                                        )
+                                    ],
+                                    endKeyword: Token(
+                                        kind: .keyword,
+                                        value: "end"
+                                    )
+                                )
+                            )
+                        ),
+                        semicolon: nil
+                    )
+                ]
+            )
+        )
+        let tokens = try! Lexer(string: Drools.rules[0]).lex()
+        let actual = try! Parser(tokens: tokens).parse()
+        XCTAssertEqual(expected, actual)
     }
 
     public static var allTests = [
@@ -148,6 +317,7 @@ final class ParserTests: XCTestCase {
         ("testMaybeReturnsNilIfCallbackThrows", testMaybeReturnsNilIfCallbackThrows),
         ("testZeroOrMany", testZeroOrMany),
         ("testZeroOrManyWithSeparator", testZeroOrManyWithSeparator),
-        ("testZeroOrManyReturnsEmptyArrayWhenCallbackImmediatelyFails", testZeroOrManyReturnsEmptyArrayWhenCallbackImmediatelyFails)
+        ("testZeroOrManyReturnsEmptyArrayWhenCallbackImmediatelyFails", testZeroOrManyReturnsEmptyArrayWhenCallbackImmediatelyFails),
+        ("testParseRuleOne", testParseRuleOne)
     ]
 }

@@ -7,7 +7,7 @@ public class SyntaxTree: Equatable {
         self.compilationUnit = compilationUnit
     }
     
-    public static func == (lhs: SyntaxTree, rhs: SyntaxTree) -> Bool {
+    public static func ==(lhs: SyntaxTree, rhs: SyntaxTree) -> Bool {
         return lhs.compilationUnit == rhs.compilationUnit
     }
 }
@@ -32,7 +32,7 @@ public class AccumulateAction: Equatable {
         self.comma = comma
     }
     
-    public static func == (lhs: AccumulateAction, rhs: AccumulateAction) -> Bool {
+    public static func ==(lhs: AccumulateAction, rhs: AccumulateAction) -> Bool {
         return lhs.actionKeyword == rhs.actionKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.statements == rhs.statements &&
@@ -64,7 +64,7 @@ public class AccumulateClause: SourcePatternFromPartSuffix, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: AccumulateClause, rhs: AccumulateClause) -> Bool {
+    public static func ==(lhs: AccumulateClause, rhs: AccumulateClause) -> Bool {
         return lhs.accumulateKeyword == rhs.accumulateKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalAnd == rhs.conditionalAnd &&
@@ -117,7 +117,7 @@ public class AccumulateFunction: AccumulateClauseBody, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: AccumulateFunction, rhs: AccumulateFunction) -> Bool {
+    public static func ==(lhs: AccumulateFunction, rhs: AccumulateFunction) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalExpressions == rhs.conditionalExpressions &&
@@ -145,7 +145,7 @@ public class AccumulateInit: Equatable {
         self.comma = comma
     }
     
-    public static func == (lhs: AccumulateInit, rhs: AccumulateInit) -> Bool {
+    public static func ==(lhs: AccumulateInit, rhs: AccumulateInit) -> Bool {
         return lhs.initKeyword == rhs.initKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.statements == rhs.statements &&
@@ -171,7 +171,7 @@ public class AccumulateResult: Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: AccumulateResult, rhs: AccumulateResult) -> Bool {
+    public static func ==(lhs: AccumulateResult, rhs: AccumulateResult) -> Bool {
         return lhs.resultKeyword == rhs.resultKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalExpression == rhs.conditionalExpression &&
@@ -199,7 +199,7 @@ public class AccumulateReverse: Equatable {
         self.comma = comma
     }
     
-    public static func == (lhs: AccumulateReverse, rhs: AccumulateReverse) -> Bool {
+    public static func ==(lhs: AccumulateReverse, rhs: AccumulateReverse) -> Bool {
         return lhs.reverseKeyword == rhs.reverseKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.statements == rhs.statements &&
@@ -225,7 +225,7 @@ public class AccumulateSteps: AccumulateClauseBody, Equatable {
         self.accumulateResult = accumulateResult
     }
     
-    public static func == (lhs: AccumulateSteps, rhs: AccumulateSteps) -> Bool {
+    public static func ==(lhs: AccumulateSteps, rhs: AccumulateSteps) -> Bool {
         return lhs.accumulateInit == rhs.accumulateInit &&
             lhs.accumulateAction == rhs.accumulateAction &&
             lhs.accumulateReverse == rhs.accumulateReverse &&
@@ -241,7 +241,7 @@ public class Accumulations: Equatable {
         self.accumulationsMappings = accumulationsMappings
     }
     
-    public static func == (lhs: Accumulations, rhs: Accumulations) -> Bool {
+    public static func ==(lhs: Accumulations, rhs: Accumulations) -> Bool {
         return lhs.accumulationsMappings == rhs.accumulationsMappings
     }
 }
@@ -260,7 +260,7 @@ public class AccumulationsMapping: Equatable {
         self.accumulateFunction = accumulateFunction
     }
     
-    public static func == (lhs: AccumulationsMapping, rhs: AccumulationsMapping) -> Bool {
+    public static func ==(lhs: AccumulationsMapping, rhs: AccumulationsMapping) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.colon == rhs.colon &&
             lhs.accumulateFunction == rhs.accumulateFunction
@@ -278,7 +278,7 @@ public class AdditiveExpression: Equatable {
         self.additiveExpressionRHS = additiveExpressionRHS
     }
     
-    public static func == (lhs: AdditiveExpression, rhs: AdditiveExpression) -> Bool {
+    public static func ==(lhs: AdditiveExpression, rhs: AdditiveExpression) -> Bool {
         return lhs.unaryExpression == rhs.unaryExpression &&
             lhs.additiveExpressionRHS == rhs.additiveExpressionRHS
     }
@@ -298,7 +298,7 @@ public class AdditiveExpressionRHS: Equatable {
         self.additiveExpressionRHS = additiveExpressionRHS
     }
     
-    public static func == (lhs: AdditiveExpressionRHS, rhs: AdditiveExpressionRHS) -> Bool {
+    public static func ==(lhs: AdditiveExpressionRHS, rhs: AdditiveExpressionRHS) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.unaryExpression == rhs.unaryExpression &&
             lhs.additiveExpressionRHS == rhs.additiveExpressionRHS
@@ -319,7 +319,7 @@ public class Annotation: Equatable {
         self.annotationBody = annotationBody
     }
     
-    public static func == (lhs: Annotation, rhs: Annotation) -> Bool {
+    public static func ==(lhs: Annotation, rhs: Annotation) -> Bool {
         return lhs.atSign == rhs.atSign &&
             lhs.identifier == rhs.identifier &&
             lhs.annotationBody == rhs.annotationBody
@@ -340,7 +340,7 @@ public class AnnotationBody: Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: AnnotationBody, rhs: AnnotationBody) -> Bool {
+    public static func ==(lhs: AnnotationBody, rhs: AnnotationBody) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.annotationInnerBody == rhs.annotationInnerBody &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -387,7 +387,7 @@ public class AnnotationInnerBodyAssignment: Equatable {
         self.value = value
     }
     
-    public static func == (lhs: AnnotationInnerBodyAssignment, rhs: AnnotationInnerBodyAssignment) -> Bool {
+    public static func ==(lhs: AnnotationInnerBodyAssignment, rhs: AnnotationInnerBodyAssignment) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.assignment == rhs.assignment &&
             lhs.value == rhs.value
@@ -402,7 +402,7 @@ public class AnnotationInnerBodyAssignments: AnnotationInnerBody, Equatable {
         self.annotationInnerBodyAssignments = annotationInnerBodyAssignments
     }
     
-    public static func == (lhs: AnnotationInnerBodyAssignments, rhs: AnnotationInnerBodyAssignments) -> Bool {
+    public static func ==(lhs: AnnotationInnerBodyAssignments, rhs: AnnotationInnerBodyAssignments) -> Bool {
         return lhs.annotationInnerBodyAssignments == rhs.annotationInnerBodyAssignments
     }
 }
@@ -421,7 +421,7 @@ public class Arguments: CreatorBody, IdentifierSuffix, SuperSuffix, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: Arguments, rhs: Arguments) -> Bool {
+    public static func ==(lhs: Arguments, rhs: Arguments) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.expressions == rhs.expressions &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -436,7 +436,7 @@ public class ArrayCreatorRest: CreatorBody, Equatable {
         self.arrayCreatorRestBody = arrayCreatorRestBody
     }
     
-    public static func == (lhs: ArrayCreatorRest, rhs: ArrayCreatorRest) -> Bool {
+    public static func ==(lhs: ArrayCreatorRest, rhs: ArrayCreatorRest) -> Bool {
         return lhs.arrayCreatorRestBody == rhs.arrayCreatorRestBody
     }
 }
@@ -478,7 +478,7 @@ public class ArrayCreatorRestExpressionBody: ArrayCreatorRestBody, Equatable {
         self.bracketPairs = bracketPairs
     }
     
-    public static func == (lhs: ArrayCreatorRestExpressionBody, rhs: ArrayCreatorRestExpressionBody) -> Bool {
+    public static func ==(lhs: ArrayCreatorRestExpressionBody, rhs: ArrayCreatorRestExpressionBody) -> Bool {
         return lhs.bracketedExpressions == rhs.bracketedExpressions &&
             lhs.bracketPairs == rhs.bracketPairs
     }
@@ -495,7 +495,7 @@ public class ArrayCreatorRestInitializerBody: ArrayCreatorRestBody, Equatable {
         self.arrayInitializer = arrayInitializer
     }
     
-    public static func == (lhs: ArrayCreatorRestInitializerBody, rhs: ArrayCreatorRestInitializerBody) -> Bool {
+    public static func ==(lhs: ArrayCreatorRestInitializerBody, rhs: ArrayCreatorRestInitializerBody) -> Bool {
         return lhs.bracketPairs == rhs.bracketPairs &&
             lhs.arrayInitializer == rhs.arrayInitializer
     }
@@ -515,7 +515,7 @@ public class ArrayInitializer: VariableInitializer, Equatable {
         self.rightBrace = rightBrace
     }
     
-    public static func == (lhs: ArrayInitializer, rhs: ArrayInitializer) -> Bool {
+    public static func ==(lhs: ArrayInitializer, rhs: ArrayInitializer) -> Bool {
         return lhs.leftBrace == rhs.leftBrace &&
             lhs.arrayVariableInitializers == rhs.arrayVariableInitializers &&
             lhs.rightBrace == rhs.rightBrace
@@ -533,7 +533,7 @@ public class ArrayVariableInitializers: Equatable {
         self.comma = comma
     }
     
-    public static func == (lhs: ArrayVariableInitializers, rhs: ArrayVariableInitializers) -> Bool {
+    public static func ==(lhs: ArrayVariableInitializers, rhs: ArrayVariableInitializers) -> Bool {
         return lhs.variableInitializers == rhs.variableInitializers &&
             lhs.comma == rhs.comma
     }
@@ -547,7 +547,7 @@ public class AssignmentOperator: Equatable {
         self.operator = `operator`
     }
     
-    public static func == (lhs: AssignmentOperator, rhs: AssignmentOperator) -> Bool {
+    public static func ==(lhs: AssignmentOperator, rhs: AssignmentOperator) -> Bool {
         return lhs.operator == rhs.operator
     }
 }
@@ -563,7 +563,7 @@ public class BindingPattern: ConditionalElementBody, ConditionalElementExistsBod
         self.bindingPatternBody = bindingPatternBody
     }
     
-    public static func == (lhs: BindingPattern, rhs: BindingPattern) -> Bool {
+    public static func ==(lhs: BindingPattern, rhs: BindingPattern) -> Bool {
         return lhs.bindingPatternIdentifier == rhs.bindingPatternIdentifier &&
             lhs.bindingPatternBody == rhs.bindingPatternBody
     }
@@ -599,14 +599,14 @@ public class BindingPatternIdentifier: Equatable {
 
     public let identifier: Identifier
 
-    public let colon: Token?
+    public let colon: Token
 
-    public init(identifier: Identifier, colon: Token?) {
+    public init(identifier: Identifier, colon: Token) {
         self.identifier = identifier
         self.colon = colon
     }
     
-    public static func == (lhs: BindingPatternIdentifier, rhs: BindingPatternIdentifier) -> Bool {
+    public static func ==(lhs: BindingPatternIdentifier, rhs: BindingPatternIdentifier) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.colon == rhs.colon
     }
@@ -626,7 +626,7 @@ public class BindingPatternMultipleSourcePattern: BindingPatternBody, Equatable 
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: BindingPatternMultipleSourcePattern, rhs: BindingPatternMultipleSourcePattern) -> Bool {
+    public static func ==(lhs: BindingPatternMultipleSourcePattern, rhs: BindingPatternMultipleSourcePattern) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.sourcePatterns == rhs.sourcePatterns &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -647,7 +647,7 @@ public class Block: Equatable {
         self.rightBrace = rightBrace
     }
     
-    public static func == (lhs: Block, rhs: Block) -> Bool {
+    public static func ==(lhs: Block, rhs: Block) -> Bool {
         return lhs.leftBrace == rhs.leftBrace &&
             lhs.statements == rhs.statements &&
             lhs.rightBrace == rhs.rightBrace
@@ -662,7 +662,7 @@ public class BooleanLiteral: Literal, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: BooleanLiteral, rhs: BooleanLiteral) -> Bool {
+    public static func ==(lhs: BooleanLiteral, rhs: BooleanLiteral) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -678,7 +678,7 @@ public class BooleanLiteralRuleAttribute: RuleAttribute, Equatable {
         self.booleanLiteral = booleanLiteral
     }
     
-    public static func == (lhs: BooleanLiteralRuleAttribute, rhs: BooleanLiteralRuleAttribute) -> Bool {
+    public static func ==(lhs: BooleanLiteralRuleAttribute, rhs: BooleanLiteralRuleAttribute) -> Bool {
         return lhs.keyword == rhs.keyword &&
             lhs.booleanLiteral == rhs.booleanLiteral
     }
@@ -698,7 +698,7 @@ public class BracketedExpression: Selector, Equatable {
         self.rightBracket = rightBracket
     }
     
-    public static func == (lhs: BracketedExpression, rhs: BracketedExpression) -> Bool {
+    public static func ==(lhs: BracketedExpression, rhs: BracketedExpression) -> Bool {
         return lhs.leftBracket == rhs.leftBracket &&
             lhs.expression == rhs.expression &&
             lhs.rightBracket == rhs.rightBracket
@@ -713,7 +713,7 @@ public class BracketedExpressions: IdentifierSuffix, Equatable {
         self.bracketedExpressions = bracketedExpressions
     }
     
-    public static func == (lhs: BracketedExpressions, rhs: BracketedExpressions) -> Bool {
+    public static func ==(lhs: BracketedExpressions, rhs: BracketedExpressions) -> Bool {
         return lhs.bracketedExpressions == rhs.bracketedExpressions
     }
 }
@@ -729,7 +729,7 @@ public class BracketPair: Equatable {
         self.rightBracket = rightBracket
     }
     
-    public static func == (lhs: BracketPair, rhs: BracketPair) -> Bool {
+    public static func ==(lhs: BracketPair, rhs: BracketPair) -> Bool {
         return lhs.leftBracket == rhs.leftBracket &&
             lhs.rightBracket == rhs.rightBracket
     }
@@ -746,7 +746,7 @@ public class CalendarsRuleAttribute: RuleAttribute, Equatable {
         self.stringLiterals = stringLiterals
     }
     
-    public static func == (lhs: CalendarsRuleAttribute, rhs: CalendarsRuleAttribute) -> Bool {
+    public static func ==(lhs: CalendarsRuleAttribute, rhs: CalendarsRuleAttribute) -> Bool {
         return lhs.calendarsKeyword == rhs.calendarsKeyword &&
             lhs.stringLiterals == rhs.stringLiterals
     }
@@ -769,7 +769,7 @@ public class CollectBindingClause: SourcePatternFromPartSuffix, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: CollectBindingClause, rhs: CollectBindingClause) -> Bool {
+    public static func ==(lhs: CollectBindingClause, rhs: CollectBindingClause) -> Bool {
         return lhs.collectKeyword == rhs.collectKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.bindingPattern == rhs.bindingPattern &&
@@ -788,7 +788,7 @@ public class CompilationUnit: Equatable {
         self.fullDefinitions = fullDefinitions
     }
     
-    public static func == (lhs: CompilationUnit, rhs: CompilationUnit) -> Bool {
+    public static func ==(lhs: CompilationUnit, rhs: CompilationUnit) -> Bool {
         return lhs.packageDeclaration == rhs.packageDeclaration &&
             lhs.fullDefinitions == rhs.fullDefinitions
     }
@@ -802,7 +802,7 @@ public class ComplexCreatedName: CreatedName, Equatable {
         self.complexCreatedNameParts = complexCreatedNameParts
     }
     
-    public static func == (lhs: ComplexCreatedName, rhs: ComplexCreatedName) -> Bool {
+    public static func ==(lhs: ComplexCreatedName, rhs: ComplexCreatedName) -> Bool {
         return lhs.complexCreatedNameParts == rhs.complexCreatedNameParts
     }
 }
@@ -818,7 +818,7 @@ public class ComplexCreatedNamePart: Equatable {
         self.typeArguments = typeArguments
     }
     
-    public static func == (lhs: ComplexCreatedNamePart, rhs: ComplexCreatedNamePart) -> Bool {
+    public static func ==(lhs: ComplexCreatedNamePart, rhs: ComplexCreatedNamePart) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.typeArguments == rhs.typeArguments
     }
@@ -835,7 +835,7 @@ public class ComplexType: Type, Equatable {
         self.bracketPairs = bracketPairs
     }
     
-    public static func == (lhs: ComplexType, rhs: ComplexType) -> Bool {
+    public static func ==(lhs: ComplexType, rhs: ComplexType) -> Bool {
         return lhs.complexTypeSegments == rhs.complexTypeSegments &&
             lhs.bracketPairs == rhs.bracketPairs
     }
@@ -852,7 +852,7 @@ public class ComplexTypeSegment: Equatable {
         self.typeArguments = typeArguments
     }
     
-    public static func == (lhs: ComplexTypeSegment, rhs: ComplexTypeSegment) -> Bool {
+    public static func ==(lhs: ComplexTypeSegment, rhs: ComplexTypeSegment) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.typeArguments == rhs.typeArguments
     }
@@ -866,7 +866,7 @@ public class ConditionalAnd: Equatable {
         self.conditionalElements = conditionalElements
     }
     
-    public static func == (lhs: ConditionalAnd, rhs: ConditionalAnd) -> Bool {
+    public static func ==(lhs: ConditionalAnd, rhs: ConditionalAnd) -> Bool {
         return lhs.conditionalElements == rhs.conditionalElements
     }
 }
@@ -882,7 +882,7 @@ public class ConditionalElement: Equatable {
         self.semicolon = semicolon
     }
     
-    public static func == (lhs: ConditionalElement, rhs: ConditionalElement) -> Bool {
+    public static func ==(lhs: ConditionalElement, rhs: ConditionalElement) -> Bool {
         return lhs.conditionalElementBody == rhs.conditionalElementBody &&
             lhs.semicolon == rhs.semicolon
     }
@@ -911,7 +911,7 @@ public class ConditionalElementAccumulate: ConditionalElementBody, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: ConditionalElementAccumulate, rhs: ConditionalElementAccumulate) -> Bool {
+    public static func ==(lhs: ConditionalElementAccumulate, rhs: ConditionalElementAccumulate) -> Bool {
         return lhs.accumulateKeyword == rhs.accumulateKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalAnd == rhs.conditionalAnd &&
@@ -964,7 +964,7 @@ public class ConditionalElementEval: ConditionalElementBody, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: ConditionalElementEval, rhs: ConditionalElementEval) -> Bool {
+    public static func ==(lhs: ConditionalElementEval, rhs: ConditionalElementEval) -> Bool {
         return lhs.evalKeyword == rhs.evalKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalExpression == rhs.conditionalExpression &&
@@ -983,7 +983,7 @@ public class ConditionalElementExists: ConditionalElementBody, Equatable {
         self.conditionalElementExistsBody = conditionalElementExistsBody
     }
     
-    public static func == (lhs: ConditionalElementExists, rhs: ConditionalElementExists) -> Bool {
+    public static func ==(lhs: ConditionalElementExists, rhs: ConditionalElementExists) -> Bool {
         return lhs.existsKeyword == rhs.existsKeyword &&
             lhs.conditionalElementExistsBody == rhs.conditionalElementExistsBody
     }
@@ -1032,7 +1032,7 @@ public class ConditionalElementForall: ConditionalElementBody, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: ConditionalElementForall, rhs: ConditionalElementForall) -> Bool {
+    public static func ==(lhs: ConditionalElementForall, rhs: ConditionalElementForall) -> Bool {
         return lhs.forallKeyword == rhs.forallKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.bindingPatterns == rhs.bindingPatterns &&
@@ -1051,7 +1051,7 @@ public class ConditionalElementNot: ConditionalElementBody, Equatable {
         self.conditionalElementNotBody = conditionalElementNotBody
     }
     
-    public static func == (lhs: ConditionalElementNot, rhs: ConditionalElementNot) -> Bool {
+    public static func ==(lhs: ConditionalElementNot, rhs: ConditionalElementNot) -> Bool {
         return lhs.notKeyword == rhs.notKeyword &&
             lhs.conditionalElementNotBody == rhs.conditionalElementNotBody
     }
@@ -1094,7 +1094,7 @@ public class ConditionalExpression: Value, Equatable {
         self.conditionalExpressionBody = conditionalExpressionBody
     }
     
-    public static func == (lhs: ConditionalExpression, rhs: ConditionalExpression) -> Bool {
+    public static func ==(lhs: ConditionalExpression, rhs: ConditionalExpression) -> Bool {
         return lhs.conditionalOrExpression == rhs.conditionalOrExpression &&
             lhs.conditionalExpressionBody == rhs.conditionalExpressionBody
     }
@@ -1117,7 +1117,7 @@ public class ConditionalExpressionBody: Equatable {
         self.falseExpression = falseExpression
     }
     
-    public static func == (lhs: ConditionalExpressionBody, rhs: ConditionalExpressionBody) -> Bool {
+    public static func ==(lhs: ConditionalExpressionBody, rhs: ConditionalExpressionBody) -> Bool {
         return lhs.questionMark == rhs.questionMark &&
             lhs.trueExpression == rhs.trueExpression &&
             lhs.colon == rhs.colon &&
@@ -1136,7 +1136,7 @@ public class ConditionalExpressionRuleAttribute: RuleAttribute, Equatable {
         self.conditionalExpression = conditionalExpression
     }
     
-    public static func == (lhs: ConditionalExpressionRuleAttribute, rhs: ConditionalExpressionRuleAttribute) -> Bool {
+    public static func ==(lhs: ConditionalExpressionRuleAttribute, rhs: ConditionalExpressionRuleAttribute) -> Bool {
         return lhs.keyword == rhs.keyword &&
             lhs.conditionalExpression == rhs.conditionalExpression
     }
@@ -1150,7 +1150,7 @@ public class ConditionalOr: Equatable {
         self.conditionalAnds = conditionalAnds
     }
     
-    public static func == (lhs: ConditionalOr, rhs: ConditionalOr) -> Bool {
+    public static func ==(lhs: ConditionalOr, rhs: ConditionalOr) -> Bool {
         return lhs.conditionalAnds == rhs.conditionalAnds
     }
 }
@@ -1166,7 +1166,7 @@ public class ConditionalOrExpression: SourcePatternFromPartSuffix, Equatable {
         self.conditionalOrExpressionRHS = conditionalOrExpressionRHS
     }
     
-    public static func == (lhs: ConditionalOrExpression, rhs: ConditionalOrExpression) -> Bool {
+    public static func ==(lhs: ConditionalOrExpression, rhs: ConditionalOrExpression) -> Bool {
         return lhs.instanceOfExpression == rhs.instanceOfExpression &&
             lhs.conditionalOrExpressionRHS == rhs.conditionalOrExpressionRHS
     }
@@ -1186,27 +1186,40 @@ public class ConditionalOrExpressionRHS: Equatable {
         self.conditionalOrExpressionRHS = conditionalOrExpressionRHS
     }
     
-    public static func == (lhs: ConditionalOrExpressionRHS, rhs: ConditionalOrExpressionRHS) -> Bool {
+    public static func ==(lhs: ConditionalOrExpressionRHS, rhs: ConditionalOrExpressionRHS) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.instanceOfExpression == rhs.instanceOfExpression &&
             lhs.conditionalOrExpressionRHS == rhs.conditionalOrExpressionRHS
     }
 }
 
+//public class Constraints: Equatable {
+//
+//    public let constraintsLeadingExpressions: ConstraintsLeadingExpressions?
+//
+//    public let constraintsTrailingExpressions: ConstraintsTrailingExpressions?
+//
+//    public init(constraintsLeadingExpressions: ConstraintsLeadingExpressions?, constraintsTrailingExpressions: ConstraintsTrailingExpressions?) {
+//        self.constraintsLeadingExpressions = constraintsLeadingExpressions
+//        self.constraintsTrailingExpressions = constraintsTrailingExpressions
+//    }
+//
+//    public static func ==(lhs: Constraints, rhs: Constraints) -> Bool {
+//        return lhs.constraintsLeadingExpressions == rhs.constraintsLeadingExpressions &&
+//            lhs.constraintsTrailingExpressions == rhs.constraintsTrailingExpressions
+//    }
+//}
+
 public class Constraints: Equatable {
-
-    public let constraintsLeadingExpressions: ConstraintsLeadingExpressions?
-
-    public let constraintsTrailingExpressions: ConstraintsTrailingExpressions?
-
-    public init(constraintsLeadingExpressions: ConstraintsLeadingExpressions?, constraintsTrailingExpressions: ConstraintsTrailingExpressions?) {
-        self.constraintsLeadingExpressions = constraintsLeadingExpressions
-        self.constraintsTrailingExpressions = constraintsTrailingExpressions
+    
+    public let tokens: [Token]
+    
+    public init(tokens: [Token]) {
+        self.tokens = tokens
     }
     
-    public static func == (lhs: Constraints, rhs: Constraints) -> Bool {
-        return lhs.constraintsLeadingExpressions == rhs.constraintsLeadingExpressions &&
-            lhs.constraintsTrailingExpressions == rhs.constraintsTrailingExpressions
+    public static func ==(lhs: Constraints, rhs: Constraints) -> Bool {
+        return lhs.tokens == rhs.tokens
     }
 }
 
@@ -1221,7 +1234,7 @@ public class ConstraintsLeadingExpressions: Equatable {
         self.semicolon = semicolon
     }
     
-    public static func == (lhs: ConstraintsLeadingExpressions, rhs: ConstraintsLeadingExpressions) -> Bool {
+    public static func ==(lhs: ConstraintsLeadingExpressions, rhs: ConstraintsLeadingExpressions) -> Bool {
         return lhs.conditionalOrExpressions == rhs.conditionalOrExpressions &&
             lhs.semicolon == rhs.semicolon
     }
@@ -1235,7 +1248,7 @@ public class ConstraintsTrailingExpressions: Equatable {
         self.conditionalOrExpressions = conditionalOrExpressions
     }
     
-    public static func == (lhs: ConstraintsTrailingExpressions, rhs: ConstraintsTrailingExpressions) -> Bool {
+    public static func ==(lhs: ConstraintsTrailingExpressions, rhs: ConstraintsTrailingExpressions) -> Bool {
         return lhs.conditionalOrExpressions == rhs.conditionalOrExpressions
     }
 }
@@ -1280,7 +1293,7 @@ public class Creator: Equatable {
         self.creatorBody = creatorBody
     }
     
-    public static func == (lhs: Creator, rhs: Creator) -> Bool {
+    public static func ==(lhs: Creator, rhs: Creator) -> Bool {
         return lhs.nonWildcardTypeArguments == rhs.nonWildcardTypeArguments &&
             lhs.createdName == rhs.createdName &&
             lhs.creatorBody == rhs.creatorBody
@@ -1350,7 +1363,7 @@ public class EntryPointClause: SourcePatternFromPartSuffix, Equatable {
         self.stringID = stringID
     }
     
-    public static func == (lhs: EntryPointClause, rhs: EntryPointClause) -> Bool {
+    public static func ==(lhs: EntryPointClause, rhs: EntryPointClause) -> Bool {
         return lhs.entryPointKeyword == rhs.entryPointKeyword &&
             lhs.stringID == rhs.stringID
     }
@@ -1367,7 +1380,7 @@ public class ExplicitGenericInvocation: Equatable {
         self.arguments = arguments
     }
     
-    public static func == (lhs: ExplicitGenericInvocation, rhs: ExplicitGenericInvocation) -> Bool {
+    public static func ==(lhs: ExplicitGenericInvocation, rhs: ExplicitGenericInvocation) -> Bool {
         return lhs.nonWildcardTypeArguments == rhs.nonWildcardTypeArguments &&
             lhs.arguments == rhs.arguments
     }
@@ -1384,7 +1397,7 @@ public class ExplicitGenericInvocationArgumentsSuffix: ExplicitGenericInvocation
         self.arguments = arguments
     }
     
-    public static func == (lhs: ExplicitGenericInvocationArgumentsSuffix, rhs: ExplicitGenericInvocationArgumentsSuffix) -> Bool {
+    public static func ==(lhs: ExplicitGenericInvocationArgumentsSuffix, rhs: ExplicitGenericInvocationArgumentsSuffix) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.arguments == rhs.arguments
     }
@@ -1403,7 +1416,7 @@ public class ExplicitGenericInvocationSuperSuffix: ExplicitGenericInvocationSuff
         self.superSuffix = superSuffix
     }
     
-    public static func == (lhs: ExplicitGenericInvocationSuperSuffix, rhs: ExplicitGenericInvocationSuperSuffix) -> Bool {
+    public static func ==(lhs: ExplicitGenericInvocationSuperSuffix, rhs: ExplicitGenericInvocationSuperSuffix) -> Bool {
         return lhs.superKeyword == rhs.superKeyword &&
             lhs.superSuffix == rhs.superSuffix
     }
@@ -1420,7 +1433,7 @@ public class Expression: VariableInitializer, Equatable {
         self.expressionRHS = expressionRHS
     }
     
-    public static func == (lhs: Expression, rhs: Expression) -> Bool {
+    public static func ==(lhs: Expression, rhs: Expression) -> Bool {
         return lhs.conditionalExpression == rhs.conditionalExpression &&
             lhs.expressionRHS == rhs.expressionRHS
     }
@@ -1437,7 +1450,7 @@ public class ExpressionRHS: Equatable {
         self.expression = expression
     }
     
-    public static func == (lhs: ExpressionRHS, rhs: ExpressionRHS) -> Bool {
+    public static func ==(lhs: ExpressionRHS, rhs: ExpressionRHS) -> Bool {
         return lhs.assignmentOperator == rhs.assignmentOperator &&
             lhs.expression == rhs.expression
     }
@@ -1454,7 +1467,7 @@ public class ExtendsClause: Equatable {
         self.stringID = stringID
     }
     
-    public static func == (lhs: ExtendsClause, rhs: ExtendsClause) -> Bool {
+    public static func ==(lhs: ExtendsClause, rhs: ExtendsClause) -> Bool {
         return lhs.extendsKeyword == rhs.extendsKeyword &&
             lhs.stringID == rhs.stringID
     }
@@ -1483,7 +1496,7 @@ public class Field: Equatable {
         self.semicolon = semicolon
     }
     
-    public static func == (lhs: Field, rhs: Field) -> Bool {
+    public static func ==(lhs: Field, rhs: Field) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.colon == rhs.colon &&
             lhs.qualifiedName == rhs.qualifiedName &&
@@ -1504,7 +1517,7 @@ public class FieldAssignment: Equatable {
         self.conditionalExpression = conditionalExpression
     }
     
-    public static func == (lhs: FieldAssignment, rhs: FieldAssignment) -> Bool {
+    public static func ==(lhs: FieldAssignment, rhs: FieldAssignment) -> Bool {
         return lhs.assignment == rhs.assignment &&
             lhs.conditionalExpression == rhs.conditionalExpression
     }
@@ -1521,7 +1534,7 @@ public class FromAccumulateClause: Equatable {
         self.accumulateClause = accumulateClause
     }
     
-    public static func == (lhs: FromAccumulateClause, rhs: FromAccumulateClause) -> Bool {
+    public static func ==(lhs: FromAccumulateClause, rhs: FromAccumulateClause) -> Bool {
         return lhs.fromKeyword == rhs.fromKeyword &&
             lhs.accumulateClause == rhs.accumulateClause
     }
@@ -1538,7 +1551,7 @@ public class FromClause: Equatable {
         self.conditionalOrExpression = conditionalOrExpression
     }
     
-    public static func == (lhs: FromClause, rhs: FromClause) -> Bool {
+    public static func ==(lhs: FromClause, rhs: FromClause) -> Bool {
         return lhs.fromKeyword == rhs.fromKeyword &&
             lhs.conditionalOrExpression == rhs.conditionalOrExpression
     }
@@ -1564,7 +1577,7 @@ public class FromCollectClause: Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: FromCollectClause, rhs: FromCollectClause) -> Bool {
+    public static func ==(lhs: FromCollectClause, rhs: FromCollectClause) -> Bool {
         return lhs.fromKeyword == rhs.fromKeyword &&
             lhs.collectKeyword == rhs.collectKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
@@ -1584,7 +1597,7 @@ public class FullDefinition: Equatable {
         self.semicolon = semicolon
     }
     
-    public static func == (lhs: FullDefinition, rhs: FullDefinition) -> Bool {
+    public static func ==(lhs: FullDefinition, rhs: FullDefinition) -> Bool {
         return lhs.definition == rhs.definition &&
             lhs.semicolon == rhs.semicolon
     }
@@ -1610,7 +1623,7 @@ public class FunctionDefinition: Definition, Equatable {
         self.block = block
     }
     
-    public static func == (lhs: FunctionDefinition, rhs: FunctionDefinition) -> Bool {
+    public static func ==(lhs: FunctionDefinition, rhs: FunctionDefinition) -> Bool {
         return lhs.functionKeyword == rhs.functionKeyword &&
             lhs.type == rhs.type &&
             lhs.identifier == rhs.identifier &&
@@ -1633,7 +1646,7 @@ public class GlobalDefinition: Definition, Equatable {
         self.identifier = identifier
     }
     
-    public static func == (lhs: GlobalDefinition, rhs: GlobalDefinition) -> Bool {
+    public static func ==(lhs: GlobalDefinition, rhs: GlobalDefinition) -> Bool {
         return lhs.globalKeyword == rhs.globalKeyword &&
             lhs.type == rhs.type &&
             lhs.identifier == rhs.identifier
@@ -1648,7 +1661,7 @@ public class Identifier: StringID, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
+    public static func ==(lhs: Identifier, rhs: Identifier) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -1667,7 +1680,7 @@ public class IdentifierSelector: Selector, Equatable {
         self.arguments = arguments
     }
     
-    public static func == (lhs: IdentifierSelector, rhs: IdentifierSelector) -> Bool {
+    public static func ==(lhs: IdentifierSelector, rhs: IdentifierSelector) -> Bool {
         return lhs.period == rhs.period &&
             lhs.identifier == rhs.identifier &&
             lhs.arguments == rhs.arguments
@@ -1714,7 +1727,7 @@ public class IdentifierSuffixClass: IdentifierSuffix, Equatable {
         self.classKeyword = classKeyword
     }
     
-    public static func == (lhs: IdentifierSuffixClass, rhs: IdentifierSuffixClass) -> Bool {
+    public static func ==(lhs: IdentifierSuffixClass, rhs: IdentifierSuffixClass) -> Bool {
         return lhs.bracketPairs == rhs.bracketPairs &&
             lhs.period == rhs.period &&
             lhs.classKeyword == rhs.classKeyword
@@ -1735,7 +1748,7 @@ public class IdentifierSuperSuffix: SuperSuffix, Equatable {
         self.arguments = arguments
     }
     
-    public static func == (lhs: IdentifierSuperSuffix, rhs: IdentifierSuperSuffix) -> Bool {
+    public static func ==(lhs: IdentifierSuperSuffix, rhs: IdentifierSuperSuffix) -> Bool {
         return lhs.period == rhs.period &&
             lhs.identifier == rhs.identifier &&
             lhs.arguments == rhs.arguments
@@ -1759,7 +1772,7 @@ public class ImportDefinition: Definition, Equatable {
         self.importDefinitionSuffix = importDefinitionSuffix
     }
     
-    public static func == (lhs: ImportDefinition, rhs: ImportDefinition) -> Bool {
+    public static func ==(lhs: ImportDefinition, rhs: ImportDefinition) -> Bool {
         return lhs.importKeyword == rhs.importKeyword &&
             lhs.functionOrStaticKeyword == rhs.functionOrStaticKeyword &&
             lhs.qualifiedName == rhs.qualifiedName &&
@@ -1778,7 +1791,7 @@ public class ImportDefinitionSuffix: Equatable {
         self.asterisk = asterisk
     }
     
-    public static func == (lhs: ImportDefinitionSuffix, rhs: ImportDefinitionSuffix) -> Bool {
+    public static func ==(lhs: ImportDefinitionSuffix, rhs: ImportDefinitionSuffix) -> Bool {
         return lhs.period == rhs.period &&
             lhs.asterisk == rhs.asterisk
     }
@@ -1790,7 +1803,7 @@ public class InExpression: Equatable {
 
     public let notKeyword: Token?
 
-    public let inKeyword: Token
+    public let keyword: Token
 
     public let leftParenthesis: Token
 
@@ -1798,19 +1811,19 @@ public class InExpression: Equatable {
 
     public let rightParenthesis: Token
 
-    public init(relationalExpression: RelationalExpression, notKeyword: Token?, inKeyword: Token, leftParenthesis: Token, expressions: [Expression], rightParenthesis: Token) {
+    public init(relationalExpression: RelationalExpression, notKeyword: Token?, keyword: Token, leftParenthesis: Token, expressions: [Expression], rightParenthesis: Token) {
         self.relationalExpression = relationalExpression
         self.notKeyword = notKeyword
-        self.inKeyword = inKeyword
+        self.keyword = keyword
         self.leftParenthesis = leftParenthesis
         self.expressions = expressions
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: InExpression, rhs: InExpression) -> Bool {
+    public static func ==(lhs: InExpression, rhs: InExpression) -> Bool {
         return lhs.relationalExpression == rhs.relationalExpression &&
             lhs.notKeyword == rhs.notKeyword &&
-            lhs.inKeyword == rhs.inKeyword &&
+            lhs.keyword == rhs.keyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.expressions == rhs.expressions &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -1828,7 +1841,7 @@ public class InheritanceTypeArgument: TypeArgument, Equatable {
         self.inheritanceTypeArgumentSuffix = inheritanceTypeArgumentSuffix
     }
     
-    public static func == (lhs: InheritanceTypeArgument, rhs: InheritanceTypeArgument) -> Bool {
+    public static func ==(lhs: InheritanceTypeArgument, rhs: InheritanceTypeArgument) -> Bool {
         return lhs.questionMark == rhs.questionMark &&
             lhs.inheritanceTypeArgumentSuffix == rhs.inheritanceTypeArgumentSuffix
     }
@@ -1845,7 +1858,7 @@ public class InheritanceTypeArgumentSuffix: Equatable {
         self.type = type
     }
     
-    public static func == (lhs: InheritanceTypeArgumentSuffix, rhs: InheritanceTypeArgumentSuffix) -> Bool {
+    public static func ==(lhs: InheritanceTypeArgumentSuffix, rhs: InheritanceTypeArgumentSuffix) -> Bool {
         return lhs.extendsOrSuperKeyword == rhs.extendsOrSuperKeyword &&
             lhs.type == rhs.type
     }
@@ -1865,7 +1878,7 @@ public class InlineListExpression: Primary, Equatable {
         self.rightBracket = rightBracket
     }
     
-    public static func == (lhs: InlineListExpression, rhs: InlineListExpression) -> Bool {
+    public static func ==(lhs: InlineListExpression, rhs: InlineListExpression) -> Bool {
         return lhs.leftBracket == rhs.leftBracket &&
             lhs.expressions == rhs.expressions &&
             lhs.rightBracket == rhs.rightBracket
@@ -1886,7 +1899,7 @@ public class InlineMapExpression: Primary, Equatable {
         self.rightBracket = rightBracket
     }
     
-    public static func == (lhs: InlineMapExpression, rhs: InlineMapExpression) -> Bool {
+    public static func ==(lhs: InlineMapExpression, rhs: InlineMapExpression) -> Bool {
         return lhs.leftBracket == rhs.leftBracket &&
             lhs.mappings == rhs.mappings &&
             lhs.rightBracket == rhs.rightBracket
@@ -1904,7 +1917,7 @@ public class InnerCreator: Equatable {
         self.arguments = arguments
     }
     
-    public static func == (lhs: InnerCreator, rhs: InnerCreator) -> Bool {
+    public static func ==(lhs: InnerCreator, rhs: InnerCreator) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.arguments == rhs.arguments
     }
@@ -1921,7 +1934,7 @@ public class InstanceOfExpression: Equatable {
         self.instanceOfSuffix = instanceOfSuffix
     }
     
-    public static func == (lhs: InstanceOfExpression, rhs: InstanceOfExpression) -> Bool {
+    public static func ==(lhs: InstanceOfExpression, rhs: InstanceOfExpression) -> Bool {
         return lhs.inExpression == rhs.inExpression &&
             lhs.instanceOfSuffix == rhs.instanceOfSuffix
     }
@@ -1938,7 +1951,7 @@ public class InstanceOfSuffix: Equatable {
         self.type = type
     }
     
-    public static func == (lhs: InstanceOfSuffix, rhs: InstanceOfSuffix) -> Bool {
+    public static func ==(lhs: InstanceOfSuffix, rhs: InstanceOfSuffix) -> Bool {
         return lhs.instanceOfKeyword == rhs.instanceOfKeyword &&
             lhs.type == rhs.type
     }
@@ -1952,7 +1965,7 @@ public class IntLiteral: Literal, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: IntLiteral, rhs: IntLiteral) -> Bool {
+    public static func ==(lhs: IntLiteral, rhs: IntLiteral) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -1970,6 +1983,19 @@ extension Literal where Self: Equatable {
     }
 }
 
+public class AnyLiteral: Equatable {
+    
+    public let literal: Literal
+    
+    public init(literal: Literal) {
+        self.literal = literal
+    }
+    
+    public static func ==(lhs: AnyLiteral, rhs: AnyLiteral) -> Bool {
+        return lhs.literal.isEqualTo(other: rhs.literal)
+    }
+}
+
 public class Mapping: Equatable {
 
     public let leftExpression: Expression
@@ -1984,7 +2010,7 @@ public class Mapping: Equatable {
         self.rightExpression = rightExpression
     }
     
-    public static func == (lhs: Mapping, rhs: Mapping) -> Bool {
+    public static func ==(lhs: Mapping, rhs: Mapping) -> Bool {
         return lhs.leftExpression == rhs.leftExpression &&
             lhs.colon == rhs.colon &&
             lhs.rightExpression == rhs.rightExpression
@@ -2017,7 +2043,7 @@ public class ModifyStatement: RHSStatement, Equatable {
         self.rightBrace = rightBrace
     }
     
-    public static func == (lhs: ModifyStatement, rhs: ModifyStatement) -> Bool {
+    public static func ==(lhs: ModifyStatement, rhs: ModifyStatement) -> Bool {
         return lhs.modifyKeyword == rhs.modifyKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalExpression == rhs.conditionalExpression &&
@@ -2045,7 +2071,7 @@ public class NewSelector: Selector, Equatable {
         self.innerCreator = innerCreator
     }
     
-    public static func == (lhs: NewSelector, rhs: NewSelector) -> Bool {
+    public static func ==(lhs: NewSelector, rhs: NewSelector) -> Bool {
         return lhs.period == rhs.period &&
             lhs.newKeyword == rhs.newKeyword &&
             lhs.nonWildcardTypeArguments == rhs.nonWildcardTypeArguments &&
@@ -2067,7 +2093,7 @@ public class NonWildcardTypeArguments: Equatable {
         self.rightAngle = rightAngle
     }
     
-    public static func == (lhs: NonWildcardTypeArguments, rhs: NonWildcardTypeArguments) -> Bool {
+    public static func ==(lhs: NonWildcardTypeArguments, rhs: NonWildcardTypeArguments) -> Bool {
         return lhs.leftAngle == rhs.leftAngle &&
             lhs.types == rhs.types &&
             lhs.rightAngle == rhs.rightAngle
@@ -2085,7 +2111,7 @@ public class OrRestriction: Equatable {
         self.orRestrictionRHS = orRestrictionRHS
     }
     
-    public static func == (lhs: OrRestriction, rhs: OrRestriction) -> Bool {
+    public static func ==(lhs: OrRestriction, rhs: OrRestriction) -> Bool {
         return lhs.singleRestriction == rhs.singleRestriction &&
             lhs.orRestrictionRHS == rhs.orRestrictionRHS
     }
@@ -2105,7 +2131,7 @@ public class OrRestrictionRHS: Equatable {
         self.orRestrictionRHS = orRestrictionRHS
     }
     
-    public static func == (lhs: OrRestrictionRHS, rhs: OrRestrictionRHS) -> Bool {
+    public static func ==(lhs: OrRestrictionRHS, rhs: OrRestrictionRHS) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.singleRestriction == rhs.singleRestriction &&
             lhs.orRestrictionRHS == rhs.orRestrictionRHS
@@ -2138,7 +2164,7 @@ public class OverClause: Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: OverClause, rhs: OverClause) -> Bool {
+    public static func ==(lhs: OverClause, rhs: OverClause) -> Bool {
         return lhs.overKeyword == rhs.overKeyword &&
             lhs.leftIdentifier == rhs.leftIdentifier &&
             lhs.colon == rhs.colon &&
@@ -2163,7 +2189,7 @@ public class PackageDeclaration: Equatable {
         self.semicolon = semicolon
     }
     
-    public static func == (lhs: PackageDeclaration, rhs: PackageDeclaration) -> Bool {
+    public static func ==(lhs: PackageDeclaration, rhs: PackageDeclaration) -> Bool {
         return lhs.packageKeyword == rhs.packageKeyword &&
             lhs.qualifiedName == rhs.qualifiedName &&
             lhs.semicolon == rhs.semicolon
@@ -2184,7 +2210,7 @@ public class Parameter: Equatable {
         self.bracketPairs = bracketPairs
     }
     
-    public static func == (lhs: Parameter, rhs: Parameter) -> Bool {
+    public static func ==(lhs: Parameter, rhs: Parameter) -> Bool {
         return lhs.type == rhs.type &&
             lhs.identifier == rhs.identifier &&
             lhs.bracketPairs == rhs.bracketPairs
@@ -2205,7 +2231,7 @@ public class Parameters: QueryOptionsPrefix, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: Parameters, rhs: Parameters) -> Bool {
+    public static func ==(lhs: Parameters, rhs: Parameters) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.parameters == rhs.parameters &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -2226,7 +2252,7 @@ public class ParenthesizedConditionalOr: ConditionalElementBody, ConditionalElem
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: ParenthesizedConditionalOr, rhs: ParenthesizedConditionalOr) -> Bool {
+    public static func ==(lhs: ParenthesizedConditionalOr, rhs: ParenthesizedConditionalOr) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.conditionalOr == rhs.conditionalOr &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -2247,7 +2273,7 @@ public class ParenthesizedOrRestriction: SingleRestriction, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: ParenthesizedOrRestriction, rhs: ParenthesizedOrRestriction) -> Bool {
+    public static func ==(lhs: ParenthesizedOrRestriction, rhs: ParenthesizedOrRestriction) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.orRestriction == rhs.orRestriction &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -2268,19 +2294,82 @@ public class ParenthesizedExpression: Primary, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: ParenthesizedExpression, rhs: ParenthesizedExpression) -> Bool {
+    public static func ==(lhs: ParenthesizedExpression, rhs: ParenthesizedExpression) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.expression == rhs.expression &&
             lhs.rightParenthesis == rhs.rightParenthesis
     }
 }
 
+// NOTE: This is the unnamed blue diagram in the parse diagrams.
 public class Pattern: Equatable {
+        
+    // public let patternBindingPrefix: PatternBindingPrefix?
     
-    public init() { }
+    public let patternType: PatternType
+    
+    public let leftParenthesis: Token
+    
+    public let constraints: Constraints
+    
+    public let rightParenthesis: Token
+    
+    public init(patternType: PatternType, leftParenthesis: Token, constraints: Constraints, rightParenthesis: Token) {
+        // self.patternBindingPrefix = patternBindingPrefix
+        self.patternType = patternType
+        self.leftParenthesis = leftParenthesis
+        self.constraints = constraints
+        self.rightParenthesis = rightParenthesis
+    }
     
     public static func ==(lhs: Pattern, rhs: Pattern) -> Bool {
-        return true
+        return lhs.patternType == rhs.patternType &&
+            lhs.leftParenthesis == rhs.leftParenthesis &&
+            lhs.constraints == rhs.constraints &&
+            lhs.rightParenthesis == rhs.rightParenthesis
+    }
+}
+
+public class PatternBinding: Equatable {
+    
+    public let identifier: Identifier
+    
+    public init(identifier: Identifier) {
+        self.identifier = identifier
+    }
+    
+    public static func ==(lhs: PatternBinding, rhs: PatternBinding) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
+
+public class PatternBindingPrefix: Equatable {
+    
+    public let patternBinding: PatternBinding
+    
+    public let colon: Token
+    
+    public init(patternBinding: PatternBinding, colon: Token) {
+        self.patternBinding = patternBinding
+        self.colon = colon
+    }
+    
+    public static func ==(lhs: PatternBindingPrefix, rhs: PatternBindingPrefix) -> Bool {
+        return lhs.patternBinding == rhs.patternBinding &&
+            lhs.colon == rhs.colon
+    }
+}
+
+public class PatternType: Equatable {
+    
+    public let identifier: Identifier
+    
+    public init(identifier: Identifier) {
+        self.identifier = identifier
+    }
+    
+    public static func ==(lhs: PatternType, rhs: PatternType) -> Bool {
+        return lhs.identifier == rhs.identifier
     }
 }
 
@@ -2298,7 +2387,7 @@ public class Placeholders: QueryOptionsPrefix, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: Placeholders, rhs: Placeholders) -> Bool {
+    public static func ==(lhs: Placeholders, rhs: Placeholders) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.identifiers == rhs.identifiers &&
             lhs.rightParenthesis == rhs.rightParenthesis
@@ -2342,7 +2431,7 @@ public class PrimaryIdentifier: Primary, Equatable {
         self.identifierSuffix = identifierSuffix
     }
     
-    public static func == (lhs: PrimaryIdentifier, rhs: PrimaryIdentifier) -> Bool {
+    public static func ==(lhs: PrimaryIdentifier, rhs: PrimaryIdentifier) -> Bool {
         return lhs.identifiers == rhs.identifiers &&
             lhs.identifierSuffix == rhs.identifierSuffix
     }
@@ -2359,7 +2448,7 @@ public class PrimaryNewCreator: Primary, Equatable {
         self.creator = creator
     }
     
-    public static func == (lhs: PrimaryNewCreator, rhs: PrimaryNewCreator) -> Bool {
+    public static func ==(lhs: PrimaryNewCreator, rhs: PrimaryNewCreator) -> Bool {
         return lhs.newKeyword == rhs.newKeyword &&
             lhs.creator == rhs.creator
     }
@@ -2376,7 +2465,7 @@ public class PrimaryNonWildcardTypeArguments: Primary, Equatable {
         self.primaryNonWildcardTypeArgumentsSuffix = primaryNonWildcardTypeArgumentsSuffix
     }
     
-    public static func == (lhs: PrimaryNonWildcardTypeArguments, rhs: PrimaryNonWildcardTypeArguments) -> Bool {
+    public static func ==(lhs: PrimaryNonWildcardTypeArguments, rhs: PrimaryNonWildcardTypeArguments) -> Bool {
         return lhs.nonWildcardTypeArguments == rhs.nonWildcardTypeArguments &&
             lhs.primaryNonWildcardTypeArgumentsSuffix == rhs.primaryNonWildcardTypeArgumentsSuffix
     }
@@ -2419,7 +2508,7 @@ public class PrimaryNonWildcardTypeArgumentsThisSuffix: PrimaryNonWildcardTypeAr
         self.arguments = arguments
     }
     
-    public static func == (lhs: PrimaryNonWildcardTypeArgumentsThisSuffix, rhs: PrimaryNonWildcardTypeArgumentsThisSuffix) -> Bool {
+    public static func ==(lhs: PrimaryNonWildcardTypeArgumentsThisSuffix, rhs: PrimaryNonWildcardTypeArgumentsThisSuffix) -> Bool {
         return lhs.thisKeyword == rhs.thisKeyword &&
             lhs.arguments == rhs.arguments
     }
@@ -2442,7 +2531,7 @@ public class PrimaryPrimitiveTypeClass: Primary, Equatable {
         self.classKeyword = classKeyword
     }
     
-    public static func == (lhs: PrimaryPrimitiveTypeClass, rhs: PrimaryPrimitiveTypeClass) -> Bool {
+    public static func ==(lhs: PrimaryPrimitiveTypeClass, rhs: PrimaryPrimitiveTypeClass) -> Bool {
         return lhs.primitiveType == rhs.primitiveType &&
             lhs.bracketPairs == rhs.bracketPairs &&
             lhs.period == rhs.period &&
@@ -2458,7 +2547,7 @@ public class PrimaryThisKeyword: Primary, Equatable {
         self.thisKeyword = thisKeyword
     }
     
-    public static func == (lhs: PrimaryThisKeyword, rhs: PrimaryThisKeyword) -> Bool {
+    public static func ==(lhs: PrimaryThisKeyword, rhs: PrimaryThisKeyword) -> Bool {
         return lhs.thisKeyword == rhs.thisKeyword
     }
 }
@@ -2477,7 +2566,7 @@ public class PrimaryVoidClass: Primary, Equatable {
         self.classKeyword = classKeyword
     }
     
-    public static func == (lhs: PrimaryVoidClass, rhs: PrimaryVoidClass) -> Bool {
+    public static func ==(lhs: PrimaryVoidClass, rhs: PrimaryVoidClass) -> Bool {
         return lhs.voidKeyword == rhs.voidKeyword &&
             lhs.period == rhs.period &&
             lhs.classKeyword == rhs.classKeyword
@@ -2495,7 +2584,7 @@ public class PrimarySuperSuffix: Primary, Equatable {
         self.superSuffix = superSuffix
     }
     
-    public static func == (lhs: PrimarySuperSuffix, rhs: PrimarySuperSuffix) -> Bool {
+    public static func ==(lhs: PrimarySuperSuffix, rhs: PrimarySuperSuffix) -> Bool {
         return lhs.superKeyword == rhs.superKeyword &&
             lhs.superSuffix == rhs.superSuffix
     }
@@ -2509,7 +2598,7 @@ public class PrimitiveType: CreatedName, UnaryExpressionCastType, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: PrimitiveType, rhs: PrimitiveType) -> Bool {
+    public static func ==(lhs: PrimitiveType, rhs: PrimitiveType) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -2522,7 +2611,7 @@ public class QualifiedName: Equatable {
         self.identifiers = identifiers
     }
     
-    public static func == (lhs: QualifiedName, rhs: QualifiedName) -> Bool {
+    public static func ==(lhs: QualifiedName, rhs: QualifiedName) -> Bool {
         return lhs.identifiers == rhs.identifiers
     }
 }
@@ -2547,7 +2636,7 @@ public class QueryDefinition: Definition, Equatable {
         self.endKeyword = endKeyword
     }
     
-    public static func == (lhs: QueryDefinition, rhs: QueryDefinition) -> Bool {
+    public static func ==(lhs: QueryDefinition, rhs: QueryDefinition) -> Bool {
         return lhs.queryKeyword == rhs.queryKeyword &&
             lhs.stringID == rhs.stringID &&
             lhs.queryOptions == rhs.queryOptions &&
@@ -2567,7 +2656,7 @@ public class QueryOptions: Equatable {
         self.annotations = annotations
     }
     
-    public static func == (lhs: QueryOptions, rhs: QueryOptions) -> Bool {
+    public static func ==(lhs: QueryOptions, rhs: QueryOptions) -> Bool {
         return lhs.queryOptionsPrefix == rhs.queryOptionsPrefix &&
             lhs.annotations == rhs.annotations
     }
@@ -2607,7 +2696,7 @@ public class RealLiteral: Literal, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: RealLiteral, rhs: RealLiteral) -> Bool {
+    public static func ==(lhs: RealLiteral, rhs: RealLiteral) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -2623,7 +2712,7 @@ public class RelationalExpression: Equatable {
         self.orRestrictions = orRestrictions
     }
     
-    public static func == (lhs: RelationalExpression, rhs: RelationalExpression) -> Bool {
+    public static func ==(lhs: RelationalExpression, rhs: RelationalExpression) -> Bool {
         return lhs.shiftExpression == rhs.shiftExpression &&
             lhs.orRestrictions == rhs.orRestrictions
     }
@@ -2669,7 +2758,7 @@ public class RelationalOperatorExpression: RelationalOperator, Equatable {
         self.bracketedExpressions = bracketedExpressions
     }
     
-    public static func == (lhs: RelationalOperatorExpression, rhs: RelationalOperatorExpression) -> Bool {
+    public static func ==(lhs: RelationalOperatorExpression, rhs: RelationalOperatorExpression) -> Bool {
         return lhs.notKeyword == rhs.notKeyword &&
             lhs.identifier == rhs.identifier &&
             lhs.bracketedExpressions == rhs.bracketedExpressions
@@ -2684,7 +2773,7 @@ public class RelationalOperatorToken: RelationalOperator, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: RelationalOperatorToken, rhs: RelationalOperatorToken) -> Bool {
+    public static func ==(lhs: RelationalOperatorToken, rhs: RelationalOperatorToken) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -2752,7 +2841,7 @@ public class RuleAttributes: Equatable {
         self.ruleAttributesSuffix = ruleAttributesSuffix
     }
     
-    public static func == (lhs: RuleAttributes, rhs: RuleAttributes) -> Bool {
+    public static func ==(lhs: RuleAttributes, rhs: RuleAttributes) -> Bool {
         return lhs.ruleAttributesPrefix == rhs.ruleAttributesPrefix &&
             lhs.ruleAttributesSuffix == rhs.ruleAttributesSuffix
     }
@@ -2769,7 +2858,7 @@ public class RuleAttributesPrefix: Equatable {
         self.colon = colon
     }
     
-    public static func == (lhs: RuleAttributesPrefix, rhs: RuleAttributesPrefix) -> Bool {
+    public static func ==(lhs: RuleAttributesPrefix, rhs: RuleAttributesPrefix) -> Bool {
         return lhs.attributesKeyword == rhs.attributesKeyword &&
             lhs.colon == rhs.colon
     }
@@ -2783,7 +2872,7 @@ public class RuleAttributesSuffix: Equatable {
         self.ruleAttributesSuffixSegments = ruleAttributesSuffixSegments
     }
     
-    public static func == (lhs: RuleAttributesSuffix, rhs: RuleAttributesSuffix) -> Bool {
+    public static func ==(lhs: RuleAttributesSuffix, rhs: RuleAttributesSuffix) -> Bool {
         return lhs.ruleAttributesSuffixSegments == rhs.ruleAttributesSuffixSegments
     }
 }
@@ -2799,7 +2888,7 @@ public class RuleAttributesSuffixSegment: Equatable {
         self.comma = comma
     }
     
-    public static func == (lhs: RuleAttributesSuffixSegment, rhs: RuleAttributesSuffixSegment) -> Bool {
+    public static func ==(lhs: RuleAttributesSuffixSegment, rhs: RuleAttributesSuffixSegment) -> Bool {
         return lhs.ruleAttribute == rhs.ruleAttribute &&
             lhs.comma == rhs.comma
     }
@@ -2825,7 +2914,7 @@ public class RuleDefinition: Definition, Equatable {
         self.thenPart = thenPart
     }
     
-    public static func == (lhs: RuleDefinition, rhs: RuleDefinition) -> Bool {
+    public static func ==(lhs: RuleDefinition, rhs: RuleDefinition) -> Bool {
         return lhs.ruleKeyword == rhs.ruleKeyword &&
             lhs.stringID == rhs.stringID &&
             lhs.ruleOptions == rhs.ruleOptions &&
@@ -2836,19 +2925,19 @@ public class RuleDefinition: Definition, Equatable {
 
 public class RuleOptions: Equatable {
 
-    public let extendsClause: ExtendsClause
+    public let extendsClause: ExtendsClause?
 
     public let annotations: [Annotation]
 
-    public let ruleAttributes: RuleAttributes
+    public let ruleAttributes: RuleAttributes?
 
-    public init(extendsClause: ExtendsClause, annotations: [Annotation], ruleAttributes: RuleAttributes) {
+    public init(extendsClause: ExtendsClause?, annotations: [Annotation], ruleAttributes: RuleAttributes?) {
         self.extendsClause = extendsClause
         self.annotations = annotations
         self.ruleAttributes = ruleAttributes
     }
     
-    public static func == (lhs: RuleOptions, rhs: RuleOptions) -> Bool {
+    public static func ==(lhs: RuleOptions, rhs: RuleOptions) -> Bool {
         return lhs.extendsClause == rhs.extendsClause &&
             lhs.annotations == rhs.annotations &&
             lhs.ruleAttributes == rhs.ruleAttributes
@@ -2892,7 +2981,7 @@ public class ShiftExpression: Equatable {
         self.shiftExpressionRHS = shiftExpressionRHS
     }
     
-    public static func == (lhs: ShiftExpression, rhs: ShiftExpression) -> Bool {
+    public static func ==(lhs: ShiftExpression, rhs: ShiftExpression) -> Bool {
         return lhs.additiveExpression == rhs.additiveExpression &&
             lhs.shiftExpressionRHS == rhs.shiftExpressionRHS
     }
@@ -2912,7 +3001,7 @@ public class ShiftExpressionRHS: Equatable {
         self.shiftExpressionRHS = shiftExpressionRHS
     }
     
-    public static func == (lhs: ShiftExpressionRHS, rhs: ShiftExpressionRHS) -> Bool {
+    public static func ==(lhs: ShiftExpressionRHS, rhs: ShiftExpressionRHS) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.additiveExpression == rhs.additiveExpression &&
             lhs.shiftExpressionRHS == rhs.shiftExpressionRHS
@@ -2930,7 +3019,7 @@ public class SimpleType: Type, Equatable {
         self.bracketPairs = bracketPairs
     }
     
-    public static func == (lhs: SimpleType, rhs: SimpleType) -> Bool {
+    public static func ==(lhs: SimpleType, rhs: SimpleType) -> Bool {
         return lhs.primitiveType == rhs.primitiveType &&
             lhs.bracketPairs == rhs.bracketPairs
     }
@@ -2947,7 +3036,7 @@ public class SingleRelationalRestriction: SingleRestriction, Equatable {
         self.shiftExpression = shiftExpression
     }
     
-    public static func == (lhs: SingleRelationalRestriction, rhs: SingleRelationalRestriction) -> Bool {
+    public static func ==(lhs: SingleRelationalRestriction, rhs: SingleRelationalRestriction) -> Bool {
         return lhs.relationalOperator == rhs.relationalOperator &&
             lhs.shiftExpression == rhs.shiftExpression
     }
@@ -2993,7 +3082,7 @@ public class SourcePattern: BindingPatternBody, Equatable {
         self.sourcePatternFromPart = sourcePatternFromPart
     }
     
-    public static func == (lhs: SourcePattern, rhs: SourcePattern) -> Bool {
+    public static func ==(lhs: SourcePattern, rhs: SourcePattern) -> Bool {
         return lhs.pattern == rhs.pattern &&
             lhs.overClause == rhs.overClause &&
             lhs.sourcePatternFromPart == rhs.sourcePatternFromPart
@@ -3011,7 +3100,7 @@ public class SourcePatternFromPart: Equatable {
         self.sourcePatternFromPartSuffix = sourcePatternFromPartSuffix
     }
     
-    public static func == (lhs: SourcePatternFromPart, rhs: SourcePatternFromPart) -> Bool {
+    public static func ==(lhs: SourcePatternFromPart, rhs: SourcePatternFromPart) -> Bool {
         return lhs.fromKeyword == rhs.fromKeyword &&
             lhs.sourcePatternFromPartSuffix == rhs.sourcePatternFromPartSuffix
     }
@@ -3071,10 +3160,14 @@ public class AnyStringID: Equatable {
 
 public class Statement: RHSStatement, Equatable {
     
-    public init() { }
+    public let tokens: [Token]
     
-    public static func == (lhs: Statement, rhs: Statement) -> Bool {
-        return true
+    public init(tokens: [Token]) {
+        self.tokens = tokens
+    }
+    
+    public static func ==(lhs: Statement, rhs: Statement) -> Bool {
+        return lhs.tokens == rhs.tokens
     }
 }
 
@@ -3086,7 +3179,7 @@ public class StringLiteral: Literal, StringID, Equatable {
         self.token = token
     }
     
-    public static func == (lhs: StringLiteral, rhs: StringLiteral) -> Bool {
+    public static func ==(lhs: StringLiteral, rhs: StringLiteral) -> Bool {
         return lhs.token == rhs.token
     }
 }
@@ -3102,7 +3195,7 @@ public class StringLiteralRuleAttribute: RuleAttribute, Equatable {
         self.stringLiteral = stringLiteral
     }
     
-    public static func == (lhs: StringLiteralRuleAttribute, rhs: StringLiteralRuleAttribute) -> Bool {
+    public static func ==(lhs: StringLiteralRuleAttribute, rhs: StringLiteralRuleAttribute) -> Bool {
         return lhs.keyword == rhs.keyword &&
             lhs.stringLiteral == rhs.stringLiteral
     }
@@ -3122,7 +3215,7 @@ public class SuperSelector: Selector, Equatable {
         self.superSuffix = superSuffix
     }
     
-    public static func == (lhs: SuperSelector, rhs: SuperSelector) -> Bool {
+    public static func ==(lhs: SuperSelector, rhs: SuperSelector) -> Bool {
         return lhs.period == rhs.period &&
             lhs.superKeyword == rhs.superKeyword &&
             lhs.superSuffix == rhs.superSuffix
@@ -3169,7 +3262,7 @@ public class ThenPart: Equatable {
         self.endKeyword = endKeyword
     }
     
-    public static func == (lhs: ThenPart, rhs: ThenPart) -> Bool {
+    public static func ==(lhs: ThenPart, rhs: ThenPart) -> Bool {
         return lhs.thenKeyword == rhs.thenKeyword &&
             lhs.rhsStatements == rhs.rhsStatements &&
             lhs.endKeyword == rhs.endKeyword
@@ -3193,7 +3286,7 @@ public class TimerRuleAttribute: RuleAttribute, Equatable {
         self.rightParenthesis = rightParenthesis
     }
     
-    public static func == (lhs: TimerRuleAttribute, rhs: TimerRuleAttribute) -> Bool {
+    public static func ==(lhs: TimerRuleAttribute, rhs: TimerRuleAttribute) -> Bool {
         return lhs.timerKeyword == rhs.timerKeyword &&
             lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.tokens == rhs.tokens &&
@@ -3276,7 +3369,7 @@ public class TypeArguments: Equatable {
         self.rightAngle = rightAngle
     }
     
-    public static func == (lhs: TypeArguments, rhs: TypeArguments) -> Bool {
+    public static func ==(lhs: TypeArguments, rhs: TypeArguments) -> Bool {
         return lhs.leftAngle == rhs.leftAngle &&
             lhs.typeArguments == rhs.typeArguments &&
             lhs.rightAngle == rhs.rightAngle
@@ -3303,7 +3396,7 @@ public class TypeDefinition: Definition, Equatable {
         self.endKeyword = endKeyword
     }
     
-    public static func == (lhs: TypeDefinition, rhs: TypeDefinition) -> Bool {
+    public static func ==(lhs: TypeDefinition, rhs: TypeDefinition) -> Bool {
         return lhs.declareKeyword == rhs.declareKeyword &&
             lhs.qualifiedName == rhs.qualifiedName &&
             lhs.typeOptions == rhs.typeOptions &&
@@ -3323,7 +3416,7 @@ public class TypeOptions: Equatable {
         self.annotations = annotations
     }
     
-    public static func == (lhs: TypeOptions, rhs: TypeOptions) -> Bool {
+    public static func ==(lhs: TypeOptions, rhs: TypeOptions) -> Bool {
         return lhs.typeOptionsExtension == rhs.typeOptionsExtension &&
             lhs.annotations == rhs.annotations
     }
@@ -3340,7 +3433,7 @@ public class TypeOptionsExtension: Equatable {
         self.qualifiedName = qualifiedName
     }
     
-    public static func == (lhs: TypeOptionsExtension, rhs: TypeOptionsExtension) -> Bool {
+    public static func ==(lhs: TypeOptionsExtension, rhs: TypeOptionsExtension) -> Bool {
         return lhs.extendsKeyword == rhs.extendsKeyword &&
             lhs.qualifiedName == rhs.qualifiedName
     }
@@ -3389,7 +3482,7 @@ public class UnaryExpressionCast: UnaryExpression, Equatable {
         self.unaryExpression = unaryExpression
     }
     
-    public static func == (lhs: UnaryExpressionCast, rhs: UnaryExpressionCast) -> Bool {
+    public static func ==(lhs: UnaryExpressionCast, rhs: UnaryExpressionCast) -> Bool {
         return lhs.leftParenthesis == rhs.leftParenthesis &&
             lhs.unaryExpressionCastType == rhs.unaryExpressionCastType &&
             lhs.rightParenthesis == rhs.rightParenthesis &&
@@ -3434,7 +3527,7 @@ public class UnaryExpressionIncrementDecrement: UnaryExpression, Equatable {
         self.primary = primary
     }
     
-    public static func == (lhs: UnaryExpressionIncrementDecrement, rhs: UnaryExpressionIncrementDecrement) -> Bool {
+    public static func ==(lhs: UnaryExpressionIncrementDecrement, rhs: UnaryExpressionIncrementDecrement) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.primary == rhs.primary
     }
@@ -3451,7 +3544,7 @@ public class UnaryExpressionNegation: UnaryExpression, Equatable {
         self.unaryExpression = unaryExpression
     }
     
-    public static func == (lhs: UnaryExpressionNegation, rhs: UnaryExpressionNegation) -> Bool {
+    public static func ==(lhs: UnaryExpressionNegation, rhs: UnaryExpressionNegation) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.unaryExpression == rhs.unaryExpression
     }
@@ -3468,7 +3561,7 @@ public class UnaryExpressionPlusMinus: UnaryExpression, Equatable {
         self.unaryExpression = unaryExpression
     }
     
-    public static func == (lhs: UnaryExpressionPlusMinus, rhs: UnaryExpressionPlusMinus) -> Bool {
+    public static func ==(lhs: UnaryExpressionPlusMinus, rhs: UnaryExpressionPlusMinus) -> Bool {
         return lhs.operator == rhs.operator &&
             lhs.unaryExpression == rhs.unaryExpression
     }
@@ -3488,7 +3581,7 @@ public class UnaryExpressionPrimary: UnaryExpression, Equatable {
         self.incrementOrDecrementOperator = incrementOrDecrementOperator
     }
     
-    public static func == (lhs: UnaryExpressionPrimary, rhs: UnaryExpressionPrimary) -> Bool {
+    public static func ==(lhs: UnaryExpressionPrimary, rhs: UnaryExpressionPrimary) -> Bool {
         return lhs.unaryExpressionPrimaryAssignment == rhs.unaryExpressionPrimaryAssignment &&
             lhs.primary == rhs.primary &&
             lhs.incrementOrDecrementOperator == rhs.incrementOrDecrementOperator
@@ -3506,7 +3599,7 @@ public class UnaryExpressionPrimaryAssignment: Equatable {
         self.operator = `operator`
     }
     
-    public static func == (lhs: UnaryExpressionPrimaryAssignment, rhs: UnaryExpressionPrimaryAssignment) -> Bool {
+    public static func ==(lhs: UnaryExpressionPrimaryAssignment, rhs: UnaryExpressionPrimaryAssignment) -> Bool {
         return lhs.identifier == rhs.identifier &&
             lhs.operator == rhs.operator
     }
@@ -3552,7 +3645,7 @@ public class ValueArray: Value, Equatable {
         self.rightBrace = rightBrace
     }
     
-    public static func == (lhs: ValueArray, rhs: ValueArray) -> Bool {
+    public static func ==(lhs: ValueArray, rhs: ValueArray) -> Bool {
         return lhs.leftBrace == rhs.leftBrace &&
             lhs.values == rhs.values &&
             lhs.rightBrace == rhs.rightBrace
@@ -3599,7 +3692,7 @@ public class WhenPart: Equatable {
         self.conditionalOrs = conditionalOrs
     }
     
-    public static func == (lhs: WhenPart, rhs: WhenPart) -> Bool {
+    public static func ==(lhs: WhenPart, rhs: WhenPart) -> Bool {
         return lhs.whenKeyword == rhs.whenKeyword &&
             lhs.colon == rhs.colon &&
             lhs.conditionalOrs == rhs.conditionalOrs

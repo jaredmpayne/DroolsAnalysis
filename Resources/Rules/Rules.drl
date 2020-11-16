@@ -13,7 +13,6 @@ rule "firewall"
     when
         $n: NetDevice($labels : labels contains "FIREWALL");
     then
-
         String cfg = ConfigGenerator.fromNode(
             $n,
             PolicyAction.BLOCK,
@@ -28,7 +27,6 @@ salience 10
     when
         $n: NetDevice($labels : labels contains "FIREWALL");
     then
-
         String cfg = ConfigGenerator.fromNode(
             $n,
             PolicyAction.ALLOW,
@@ -48,13 +46,13 @@ then
             (NetId) netlabels.get("anywhere"),
             (NetId) netlabels.get("telnet")
         );
-        pusher.installRules(cfg);
+    pusher.installRules(cfg);
     String pol = $n.generateConfig(
             PolicyAction.BLOCK,
             (NetId) netlabels.get("anywhere"),
             (NetId) netlabels.get("ftp")
         );
-        pusher.installRules(pol);
+    pusher.installRules(pol);
 end
 
 rule "snort to qradar"
@@ -77,26 +75,33 @@ when
     $i: NetInterface(hostedBy == $p);
     $l: Link ( $i == src || == dst);
 then
-    String cfg = ConfigGen.fromEndSystemLink($l,
+    String cfg = ConfigGen.fromEndSystemLink(
+        $l,
         PolicyAction.BLOCK_TO_EXCEPT,
         (NetId) netlabels.get("anywhere"),
         (NetId) netlabels.get("Laserjet"),
         (NetId) netlabels.get("Laserjet").plus(
-            (NetId) netlabels.get("printer net")));
-        pusher.installRules(cfg);
+            (NetId) netlabels.get("printer net")
+        )
+    );
+    pusher.installRules(cfg);
 end
 
 rule "unnecesary services printer network"
 when
     $p: EndSystem($labels: labels contains "PRINTER");
     $i: NetInterface(hostedBy == $p);
-    $l: Link ( $i == src || == dst);
+    $l: Link ($i == src || == dst);
 then
-    String cfg = ConfigGen.fromEndSystemLink($l,
+    String cfg = ConfigGen.fromEndSystemLink(
+        $l,
         PolicyAction.BLOCK,
         (NetId) netlabels.get("anywhere"),
-        (NetId) netlabels.get("printer net").plus((NetId) netlabels.get("web")));
-        pusher.installRules(cfg);
+        (NetId) netlabels.get("printer net").plus(
+            (NetId) netlabels.get("web")
+        )
+    );
+    pusher.installRules(cfg);
 end
 
 rule "firewall-exception-ssh-to-h2"

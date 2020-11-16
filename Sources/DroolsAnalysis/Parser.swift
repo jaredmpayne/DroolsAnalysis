@@ -393,25 +393,25 @@ public class Parser {
     }
 
     internal func parseAnyConditionalElementBody() throws -> AnyConditionalElementBody {
-        if let bindingPattern = self.maybe(Parser.parseBindingPattern) {
-            return AnyConditionalElementBody(conditionalElementBody: bindingPattern)
-        }
-        if let conditionalElementAccumulate = self.maybe(Parser.parseConditionalElementAccumulate) {
-            return AnyConditionalElementBody(conditionalElementBody: conditionalElementAccumulate)
-        }
-        if let conditionalElementEval = self.maybe(Parser.parseConditionalElementEval) {
-            return AnyConditionalElementBody(conditionalElementBody: conditionalElementEval)
-        }
         if let conditionalElementExists = self.maybe(Parser.parseConditionalElementExists) {
             return AnyConditionalElementBody(conditionalElementBody: conditionalElementExists)
-        }
-        if let conditionalElementForall = self.maybe(Parser.parseConditionalElementForall) {
-            return AnyConditionalElementBody(conditionalElementBody: conditionalElementForall)
         }
         if let conditionalElementNot = self.maybe(Parser.parseConditionalElementNot) {
             return AnyConditionalElementBody(conditionalElementBody: conditionalElementNot)
         }
-        return AnyConditionalElementBody(conditionalElementBody: try self.parseParenthesizedConditionalOr())
+        if let conditionalElementEval = self.maybe(Parser.parseConditionalElementEval) {
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementEval)
+        }
+        if let conditionalElementForall = self.maybe(Parser.parseConditionalElementForall) {
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementForall)
+        }
+        if let conditionalElementAccumulate = self.maybe(Parser.parseConditionalElementAccumulate) {
+            return AnyConditionalElementBody(conditionalElementBody: conditionalElementAccumulate)
+        }
+        if let parenthesizedConditionalOr = self.maybe(Parser.parseParenthesizedConditionalOr) {
+            return AnyConditionalElementBody(conditionalElementBody: parenthesizedConditionalOr)
+        }
+        return AnyConditionalElementBody(conditionalElementBody: try self.parseBindingPattern())
     }
 
     internal func parseConditionalElementEval() throws -> ConditionalElementEval {
@@ -487,7 +487,7 @@ public class Parser {
         return ConditionalOr(
             conditionalAnds: try self.oneOrMany(
                 Parser.parseConditionalAnd,
-                separator: try self.expect(kind: .keyword, value: "or")
+                separator: Token(kind: .keyword, value: "or")
             )
         )
     }
@@ -507,11 +507,14 @@ public class Parser {
         )
     }
 
+    // NOTE: Does not currently parse further than Constraints. The language's current
+    // documentation is not well-defined past this point.
     internal func parseConstraints() throws -> Constraints {
-        return Constraints(
-            constraintsLeadingExpressions: self.maybe(Parser.parseConstraintsLeadingExpressions),
-            constraintsTrailingExpressions: self.maybe(Parser.parseConstraintsTrailingExpressions)
-        )
+        var tokens: [Token] = []
+        while let token = self.reader.peek(), token != Token(kind: .punctuator, value: ")") {
+            tokens.append(self.reader.next()!)
+        }
+        return Constraints(tokens: tokens)
     }
 
     internal func parseConstraintsLeadingExpressions() throws -> ConstraintsLeadingExpressions {
@@ -756,7 +759,10 @@ public class Parser {
         return InExpression(
             relationalExpression: try self.parseRelationalExpression(),
             notKeyword: self.maybe(kind: .keyword, value: "not"),
-            inKeyword: try self.expect(kind: .keyword, value: "in"),
+            keyword: try self.expect(
+                kind: .keyword,
+                values: ["contains", "in", "matches", "memberof"]
+            ),
             leftParenthesis: try self.expect(kind: .punctuator, value: "("),
             expressions: try self.oneOrMany(
                 Parser.parseExpression,
@@ -829,11 +835,13 @@ public class Parser {
         )
     }
 
-    internal func parseLiteral() throws -> Literal {
-        return try self.maybe(Parser.parseIntLiteral)
-            ?? self.maybe(Parser.parseRealLiteral)
-            ?? self.maybe(Parser.parseBooleanLiteral)
-            ?? self.parseStringLiteral()
+    internal func parseAnyLiteral() throws -> AnyLiteral {
+        return AnyLiteral(
+            literal: try self.maybe(Parser.parseIntLiteral)
+                ?? self.maybe(Parser.parseRealLiteral)
+                ?? self.maybe(Parser.parseBooleanLiteral)
+                ?? self.parseStringLiteral()
+        )
     }
     
     internal func parseMapping() throws -> Mapping {
@@ -961,8 +969,35 @@ public class Parser {
     }
     
     internal func parsePattern() throws -> Pattern {
-        // BUG: This isn't elaborated on in the parse diagrams.
-        return Pattern()
+        let patternType = try self.parsePatternType()
+        let leftParenthesis = try self.expect(kind: .punctuator, value: "(")
+        let constraints = try self.parseConstraints()
+        let rightParenthesis = try self.expect(kind: .punctuator, value: ")")
+        return Pattern(
+            patternType: patternType,
+            leftParenthesis: leftParenthesis,
+            constraints: constraints,
+            rightParenthesis: rightParenthesis
+        )
+    }
+    
+    internal func parsePatternBinding() throws -> PatternBinding {
+        return PatternBinding(
+            identifier: try self.parseIdentifier()
+        )
+    }
+    
+    internal func parsePatternBindingPrefix() throws -> PatternBindingPrefix {
+        return PatternBindingPrefix(
+            patternBinding: try self.parsePatternBinding(),
+            colon: try self.expect(kind: .punctuator, value: ":")
+        )
+    }
+    
+    internal func parsePatternType() throws -> PatternType {
+        return PatternType(
+            identifier: try self.parseIdentifier()
+        )
     }
 
     internal func parsePlaceholders() throws -> Placeholders {
@@ -983,8 +1018,8 @@ public class Parser {
         if let parsePrimaryNonWildcardTypeArguments = self.maybe(Parser.parsePrimaryNonWildcardTypeArguments) {
             return AnyPrimary(primary: parsePrimaryNonWildcardTypeArguments)
         }
-        if let literal = self.maybe(Parser.parseLiteral) {
-            return AnyPrimary(primary: literal)
+        if let literal = self.maybe(Parser.parseAnyLiteral) {
+            return AnyPrimary(primary: literal.literal)
         }
         if let primarySuperSuffix = self.maybe(Parser.parsePrimarySuperSuffix) {
             return AnyPrimary(primary: primarySuperSuffix)
@@ -1155,6 +1190,9 @@ public class Parser {
     }
 
     internal func parseAnyRHSStatement() throws -> AnyRHSStatement {
+        guard let token = self.reader.peek(), token != Token(kind: .keyword, value: "end") else {
+            throw Error.unexpected(actual: nil, expected: nil)
+        }
         return AnyRHSStatement(
             rhsStatement: try self.maybe(Parser.parseModifyStatement)
                 ?? self.parseStatement()
@@ -1210,9 +1248,9 @@ public class Parser {
 
     internal func parseRuleOptions() throws -> RuleOptions {
         return RuleOptions(
-            extendsClause: try self.parseExtendsClause(),
+            extendsClause: self.maybe(Parser.parseExtendsClause),
             annotations: self.zeroOrMany(Parser.parseAnnotation),
-            ruleAttributes: try self.parseRuleAttributes()
+            ruleAttributes: self.maybe(Parser.parseRuleAttributes)
         )
     }
 
@@ -1262,10 +1300,13 @@ public class Parser {
     }
 
     internal func parseSourcePattern() throws -> SourcePattern {
+        let pattern = try self.parsePattern()
+        let overClause = self.maybe(Parser.parseOverClause)
+        let sourcePatternFromPart = self.maybe(Parser.parseSourcePatternFromPart)
         return SourcePattern(
-            pattern: try self.parsePattern(),
-            overClause: self.maybe(Parser.parseOverClause),
-            sourcePatternFromPart: self.maybe(Parser.parseSourcePatternFromPart)
+            pattern: pattern,
+            overClause: overClause,
+            sourcePatternFromPart: sourcePatternFromPart
         )
     }
 
@@ -1285,9 +1326,14 @@ public class Parser {
         )
     }
     
+    // NOTE: Pure Java statements do not get parsed.
     internal func parseStatement() throws -> Statement {
-        // BUG: This isn't elaborated on in the parse diagrams.
-        return Statement()
+        var tokens: [Token] = []
+        while let token = self.reader.peek(), token != Token(kind: .punctuator, value: ";") {
+            tokens.append(self.reader.next()!)
+        }
+        tokens.append(try self.expect(kind: .punctuator, value: ";"))
+        return Statement(tokens: tokens)
     }
 
     internal func parseAnyStringID() throws -> AnyStringID {
@@ -1505,11 +1551,13 @@ public class Parser {
 
     internal func oneOrMany<T>(_ callback: (Parser) -> () throws -> T, separator: Token?) throws -> [T] {
         let array = [try callback(self)()]
-        // BUG: This allows for a trailing separator in the case of exactly one element.
         if let sep = separator {
-            let _ = try self.expect(token: sep)
+            if let _ = self.maybe(token: sep) {
+                return try array + self.zeroOrMany(callback, separator: separator)
+            }
+            return array
         }
-        return try array + self.zeroOrMany(callback, separator: separator)
+        return array + self.zeroOrMany(callback)
     }
 
     internal func zeroOrMany<T>(_ callback: (Parser) -> () throws -> T) -> [T] {
